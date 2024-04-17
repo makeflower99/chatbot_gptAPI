@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코딩을 풀어주는 챗봇 CopleChat</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <p>페이지 확인</p>
+    <div class="container">
+        <div class="sidebar">
+            {% load custom_filters %}
+            {% for level in levels %}
+                {% if level in level_images.keys %}
+                    <div class="level-container">
+                        <button class="level-btn" data-level="{{ level }}">
+                            <img src="{{ level_images|get_item:level }}" alt="Level {{ level }}" class="level-image">
+                            <span>level {{ level }}</span>
+                        </button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="questions-container">
+                <ul>
+                    {% for question in random_questions %}
+                        <li class="question-item"><button type="button">{{ question }}</button></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        
+        <div class="chat-container">
+            <div class="chat-history">
+                <!-- 대화 히스토리가 여기에 표시됩니다. -->
+            </div>
+            <div class="user-input">
+                <input type="text" class="message-input" placeholder="메시지를 입력하세요...">
+                <button class="send-button">전송</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

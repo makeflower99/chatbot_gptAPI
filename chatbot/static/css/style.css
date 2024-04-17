@@ -1,0 +1,113 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+
+.container {
+    display: flex;
+    height: 100vh;
+    flex-direction: row; /* 수정: 가로 방향으로 배치 */
+}
+
+.sidebar {
+    flex: 1; /* 왼쪽 패널 너비 조정 */
+    max-width: 40%; /* 최대 너비를 50%로 제한 */
+    flex-wrap: wrap; /* 요소가 너무 많을 때 줄바꿈하도록 설정 */
+    flex-direction: row; /* 요소를 가로로 배치 */
+    background-color: #f0f0f0; /* 회색 배경색 */
+    overflow-y: auto;
+}
+
+.level-container {
+    display: inline-block; /* 요소 가로로 배치 */
+    align-items: center;
+    flex-direction: row; /* 요소를 가로로 배치 */
+    margin-right: 10px; /* 버튼 사이의 간격 조절 */
+}
+
+.level-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row; /* 버튼 안의 요소를 가로로 배치 */
+    margin-right: 10px; /* 버튼 사이의 간격 조절 */
+    width: 100px; /* 버튼 너비 조절 */
+    height: 100px; /* 버튼 높이 조절 */
+}
+
+.level-image {
+    width: 50px !important; /* 이미지 너비 조절 */
+    height: auto !important; /* 이미지 높이 자동 조절 */
+}
+
+
+.question-item {
+    display: inline-block; /* 또는 block, 필요에 따라 */
+    padding: 10px 20px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer; /* 마우스 오버 시 손가락 커서 표시 */
+    transition: background-color 0.3s; /* 마우스 오버 애니메이션 */
+}
+
+.question-item:hover {
+    background-color: #e2e2e2; /* 마우스 오버 시 배경색 변경 */
+}
+
+
+
+
+.chat-container {
+    flex: 1; /* 오른쪽 패널이 남은 공간을 채우도록 함 */
+    max-width: 60%; /* 최대 너비를 50%로 제한 */
+    background-color: #ffffff; /* 흰색 배경색 */
+}
+
+
+.chat-history {
+    flex: 1;
+    overflow-y: auto;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.message.user {
+    background-color: #f5f6f7;
+}
+
+.message.bot {
+    background-color: rgba(0, 135, 68, .8);
+    color: #fff;
+}
+
+.user-input {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.message-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.send-button {
+    border: none;
+    background-color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
