@@ -107,4 +107,12 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error:', error);
         });
     })
+    // 추가된 부분 엔터누르면 보내짐
+    // 메시지 입력 필드에서 엔터 키를 눌렀을 때 이벤트 리스너 추가
+    messageInput.addEventListener('keypress', function(event) {
+        if (event.keyCode === 13 || event.which === 13) {
+            event.preventDefault();  // 폼 제출 방지
+            sendButton.click();      // 프로그래밍적으로 'send' 버튼 클릭 이벤트 발생
+        }
+    });
 });
