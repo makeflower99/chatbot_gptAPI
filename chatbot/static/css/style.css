@@ -60,9 +60,14 @@ body, html {
 
 
 .chat-container {
+    display: flex;
+    flex-direction: column;
     flex: 1; /* 오른쪽 패널이 남은 공간을 채우도록 함 */
     max-width: 60%; /* 최대 너비를 50%로 제한 */
     background-color: #ffffff; /* 흰색 배경색 */
+    /* height: 100%;
+    position: relative; 부모 컨테이너에 대해 상대적 위치 설정 */
+    overflow-y: auto;
 }
 
 
@@ -88,10 +93,20 @@ body, html {
     color: #fff;
 }
 
+/* 채팅입력창 아래 고정 */
 .user-input {
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    /* margin-top: 20px; */
+    position: fixed; /* 위치를 고정 */
+    bottom: 0; /* 하단에 위치 */
+    left: 1; /* 왼쪽 정렬 왼오 0 이면 중앙인듯? */
+    right: 1; /* 오른쪽 정렬 왼오 0 이면 중앙인듯?*/
+    padding: 10px; /* 패딩 추가 */
+    background-color: #ffffff;
+    width: 60%;
+    margin-left: auto; /* 중앙 정렬을 위해 필요 >근데 이건 왜 필요한지 모르겠네*/
+    margin-right: auto; /* 중앙 정렬을 위해 필요 >이것도 마찬가지*/
 }
 
 .message-input {
@@ -111,3 +126,19 @@ body, html {
 }
 
 
+/* 로그아웃 위로 */
+.top-bar {
+    width: 100%;
+    background-color: #f0f0f0; /* 배경색 설정 */
+    padding: 10px 0; /* 상하 패딩 */
+    text-align: right; /* 텍스트를 오른쪽 정렬 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 그림자 효과 */
+    text-align: right;
+}
+
+.top-bar a {
+    margin-right: 20px; /* 오른쪽 마진으로 여백 제공 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #333; /* 링크 색상 */
+    font-weight: bold; /* 글꼴 굵기 */
+}

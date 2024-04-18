@@ -1,5 +1,4 @@
 django
 django-rest-framework 
 langchain
-langchain-openai
 openai

@@ -4,15 +4,17 @@ from .utils import get_random_questions_by_level
 from django.http import JsonResponse
 import logging
 import json
+from openai import OpenAI
 
+from langchain.memory import ConversationSummaryBufferMemory, ConversationBufferMemory
 from langchain_openai import ChatOpenAI
-from langchain.memory import ConversationBufferMemory
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 import os
 
 os.environ["OPENAI_API_KEY"] = "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" 
 
+# OPENAI_API_KEY = "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"  
 
 # Logger 객체 생성
 logger = logging.getLogger(__name__)
@@ -57,63 +59,7 @@ def get_random_questions(request):
         return JsonResponse({'random_questions': random_questions})
     else:
         return JsonResponse({'error': 'POST method required'})
-
-
-
-## 챗봇 기능 구현
-
-# llm 이용한 연결 
-# 모델(llm), 메모리객체(memory), chain -> 세션, 캐시저장 다 안됨....(직렬화 안되는 객체)
-# 전역변수로 설정
-
-# 모델 생성 - api불러오기
-llm = ChatOpenAI(temperature=0.1, model='gpt-4-turbo')
-
-# 대화 저장하는 메모리 객체
-memory = ConversationBufferMemory(
-    llm=llm,
-    max_token_limit=1000, # 토큰 키워보기
-    memory_key="chat_history",
-    return_messages=True,
-)
-
-def load_memory(input):
-    print(input)
-    return memory.load_memory_variables({})["chat_history"]
     
-# 시스템프롬프트 설정 + 대화내용 불러와서 chain 실행할 수 있도록 chathistory 설정
-prompt = ChatPromptTemplate.from_messages([ # 용재님 프롬프트
-    ("system", '''Your name is "코풀챗".
-You are a teacher of Python programming classes in middle and high schools.
-User is a student.
-Your task is to accomplish this step by step.
-First, when a user asks you to give them the code, try to get them to answer the algorithm for the problem first instead of the code.
-If a user asks for the code, You can only provide code grouped by algorithm and should shuffle them. 
-Second, if they can't answer the algorithm for the problem, give them a hint so they can answer the algorithm. 
-Third, when they're done learning the algorithm, provide code grouped by algorithm and should shuffle them. 
-If a user asks for an explanation of your code, you can provide one next to the code grouped by algorithm and should shuffle them.
-You will be penalized If you give user unmixed code.
-End the conversation when user tell an accurate answer to the problem.
-Say something positive rather than negative.
-please talk in korean.'''),
-    MessagesPlaceholder(variable_name="chat_history"),
-    ("human", "{question_content}"),
-])
-
-# 체인 생성 - load_memory 통해 memory의 chat_history 불러옴
-chain = RunnablePassthrough.assign(chat_history=load_memory) | prompt | llm
-
-
-def invoke_chain(question):
-    # chain객체의 invoke 호출(chain호출 - 질문답)
-    result = chain.invoke({"question_content": question})
-    # 이번 대화내용 memory 저장
-    memory.save_context(
-        {"input": question},
-        {"output": result.content},
-    )
-    return result.content
-
 
 def process_question(request):
     if request.method == 'POST':
@@ -125,8 +71,54 @@ def process_question(request):
 
         ## 받은 데이터를 openai로 보내고
         # 답을 받아서 jsonresponse로 보내야함
+        
+        # 단순 연결 - 대화가 이어지지 않음, 한번 연결 후 끊어짐
+        # client = OpenAI(api_key=OPENAI_API_KEY)
+
+        # completion = client.chat.completions.create(
+        #     model="gpt-3.5-turbo",
+        #     messages=[
+        #         {"role": "user", "content": question_content}
+        #     ]
+        # )
+
+        # results = completion.choices[0].message.content
+
+
+        # llm 이용한 연결
+
+        llm = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo-0613')
+
+        memory = ConversationBufferMemory(
+            llm=llm,
+            max_token_limit=1000, # 토큰 키워보기
+            memory_key="chat_history",
+            return_messages=True,
+        )
+
+        def load_memory(input):
+            print(input)
+            return memory.load_memory_variables({})["chat_history"]
+            
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", "You are a helpful AI talking to human"),
+            MessagesPlaceholder(variable_name="chat_history"),
+            ("human", "{question_content}"),
+        ])
+
+        chain = RunnablePassthrough.assign(chat_history=load_memory) | prompt | llm
+
+        def invoke_chain(question):
+            result = chain.invoke({"question_content": question})
+            memory.save_context(
+                {"input": question},
+                {"output": result.content},
+            )
+            return result.content
 
         results = invoke_chain(question_content)
 
         return JsonResponse({'answer': results })
     
+
+#12345
