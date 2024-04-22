@@ -28,4 +28,6 @@ urlpatterns = [
     path('api/question/start/', views.start_conversation, name='start_conversation'),
     path('api/question/process/', views.process_question, name='process_question'),
     path('', include('users.urls')),
+    path('save_message/', views.save_message, name='save_message'),
+    path("api/get_user_info/", views.get_user_info, name = "get_user_info"),
 ]

@@ -46,16 +46,16 @@
                             </div>
                         </button>
                 {% endfor %}
-                        <!-- 랜덤 문제 보기 버튼 -->
-                        <button class="random-question-btn">랜덤 문제 생성 🔀</button>
             </div>
-
+            
             <div class="questions-container">
                 <div class="question-text-container">
                     <!-- 질문 생성되어서 들어감 -->
                 </div>
             </div>
-    
+            <!-- 랜덤 문제 보기 버튼 -->
+            <button class="random-question-btn">랜덤 문제 생성 🔀</button>
+            
 
 
             <!-- 잔디 기능 -->
@@ -88,6 +88,21 @@
     <script>
         // Django 템플릿에서 JavaScript 변수로 변환
         const heatmapArray = JSON.parse('{{ heatmap_array|safe }}');
+        fetch('/api/get_user_info/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('네트워크 응답이 올바르지 않습니다.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("login ",data);
+            // 세션 스토리지에 저장
+            sessionStorage.setItem('userId', data.id);
+        })
+        .catch(error => {
+            console.error('fetch 작업 중 문제가 발생했습니다:', error);
+        });
     </script>
     <script src="{% static 'js/script.js' %}"></script>
 </body>

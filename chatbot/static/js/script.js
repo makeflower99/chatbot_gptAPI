@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // 난이도 버튼 클릭시 생성
             const questionsContainer = document.querySelector('.questions-container');
             questionsContainer.style.display = 'block';
+            // 추가
+            const randomQuestionBtn = document.querySelector('.random-question-btn');
+            randomQuestionBtn.style.display = 'block';
             fetch('/api/level/', {
                 method: 'POST',
                 headers: {
@@ -45,43 +48,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 질문 버튼 클릭시 서버로 질문 전송(user->bot)
-    const questionButtons = document.querySelector('.questions-container')
-    questionButtons.addEventListener('click', (event) => {
-        // const questionItem = event.target.closest('.questions-container');
-        const questionItem = event.target.closest('.question-text-container');
-        loadingScreen.style.display = 'flex'; // 추가 - 보이도록
-        if (questionItem) {
-            const questionContent = event.target.textContent;
-            // 세션 스토리지에 저장된 유저정보(id) 가져옴
-            const userId = sessionStorage.getItem('userId');
-            // 질문 내용 대화창에 입력
-            appendMessage(questionContent, 'user', '/static/images/user.png');
-            fetch('/api/question/start/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                },
-                body: JSON.stringify({ question: questionContent , userId: userId}),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.status == 'success'){
-                // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
-                    const ai_response = data.ai_response;
-                    appendMessage(ai_response, 'bot','/static/images/profile.png');
-                    // conversation_id 세션 스토리지에 저장
-                    sessionStorage.setItem('conv_id', data.conversation_id)
-                    loadingScreen.style.display = 'none'; // 추가 - 사라지도록
-                }
+   // 질문 버튼 클릭시 서버로 질문 전송(user->bot)
+   const questionButtons = document.querySelector('.questions-container')
+   questionButtons.addEventListener('click', (event) => {
+       // const questionItem = event.target.closest('.questions-container');
+       const questionItem = event.target.closest('.question-text-container');
+       
+       if (questionItem) {
+           const questionContent = event.target.textContent;
 
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-    });
+           // 세션 스토리지에 저장된 유저정보(id) 가져옴
+           const userId = sessionStorage.getItem('userId');
+           // 질문 내용 대화창에 입력
+           appendMessage(questionContent, 'user');
+           fetch('/api/question/start/', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json',
+                   'X-CSRFToken': csrfToken,
+               },
+               body: JSON.stringify({ question: questionContent , userId: userId}),
+           })
+           .then(response => response.json())
+           .then(data => {
+               if(data.status == 'success'){
+                   // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
+                   const ai_response = data.ai_response;
+                   appendMessage(ai_response, 'bot');
+                   
+                   // quesiont_id 세션 스토리지 저장
+                   sessionStorage.setItem('question_id', data.question_id)
+
+                   // conversation_id 세션 스토리지에 저장
+                   sessionStorage.setItem('conv_id', data.conversation_id)
+               }
+
+           })
+           .catch((error) => {
+               console.error('Error:', error);
+           });
+       }
+   });
     
 
 
@@ -158,6 +165,102 @@ document.addEventListener('DOMContentLoaded', function () {
         messageElement.appendChild(imageElement);
         messageElement.appendChild(contentElement);
 
+
+    // 추가한 부분 (if 봇일때 추가 / 유저이면 안나오게)
+    if (sender === 'bot') {
+        const likebutton = document.createElement('button');
+        likebutton.classList.add('likebutton', sender);
+        likebutton.textContent = '좋아요';
+        messageElement.appendChild(likebutton);
+
+        const dislikebutton = document.createElement('button');
+        dislikebutton.classList.add('dislikebutton', sender);
+        dislikebutton.textContent = '싫어요';
+        messageElement.appendChild(dislikebutton);
+    }
+
+        chatHistory.appendChild(messageElement);
+
+        function getCSRFToken() {
+            const metaTag = document.querySelector('meta[name="csrf-token"]');
+            if (metaTag) {
+                return metaTag.getAttribute('content');
+            } else {
+                console.error('CSRF token meta tag not found');
+                return null;
+            }
+        }
+        function getCSRFToken() {
+            return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        }
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('likebutton') || event.target.classList.contains('dislikebutton')) {
+                if (!event.target.dataset.clicked) {
+                    event.target.dataset.clicked = true;
+                    const messageContent = event.target.parentNode.querySelector('.content').textContent; // 메시지 내용 가져오기
+                    const reaction = event.target.textContent.includes('좋아요') ? 'like' : 'dislike';
+                    // const csrfToken = getCSRFToken();
+                    
+                    fetch('/save_message/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: `content=${encodeURIComponent(messageContent)}&reaction=${reaction}`
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                    .catch(error => console.error('Error:', error));
+                }
+            }
+        });
+
+
+
+        document.querySelectorAll('.like-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 좋아요 버튼 클릭 이벤트 처리
+                const messageId = this.closest('.message').getAttribute('data-message-id');
+                sendReaction(messageId, 'like');
+            });
+        });
+        
+        document.querySelectorAll('.dislike-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 싫어요 버튼 클릭 이벤트 처리
+                const messageId = this.closest('.message').getAttribute('data-message-id');
+                sendReaction(messageId, 'dislike');
+            });
+        });
+        
+        function sendReaction(messageId, reaction) {
+            // AJAX 요청 보내기
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/save_message/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    // 요청 완료 후 처리
+                    if (xhr.status === 200) {
+                        // 성공적으로 처리된 경우
+                        console.log('Reaction sent successfully');
+                    } else {
+                        // 요청 실패한 경우
+                        console.error('Failed to send reaction');
+                    }
+                }
+            };
+            const data = JSON.stringify({ messageId, reaction });
+            xhr.send(data);
+        }
+
+
+
+
+
+
     
         // 생성된 메시지 요소를 채팅 히스토리에 추가
         chatHistory.appendChild(messageElement);
@@ -178,36 +281,40 @@ document.addEventListener('DOMContentLoaded', function () {
     const messageInput = document.querySelector('.message-input');
     const sendButton = document.querySelector('.send-button');
 
-    // 메세지 전송(user->bot), sendbutton 클릭시 process_question 발동
-    sendButton.addEventListener('click', () => {
-        const message = messageInput.value.trim();
-        loadingScreen.style.display = 'flex'; // 추가 - 보이도록
-        if (message === '') return;
-        // user가 보낸 메세지 출력
-        appendMessage(message, 'user' , '/static/images/user.png');
-        messageInput.value = '';
-        const conv_id = sessionStorage.getItem('conv_id');
-        fetch('/api/question/process/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken,
-            },
-            body: JSON.stringify({ question: message , conv_id: conv_id}),
-        })
-        .then(response => response.json())
-        .then(data => { // ai 답받아서 appendMessage(bot)로 출력
-            if(data.status == 'success'){
-                // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
-                const ai_response = data.ai_response;
-                appendMessage(ai_response, 'bot', '/static/images/profile.png');
-                loadingScreen.style.display = 'none'; // 추가 - 사라지도록
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+   // 메세지 전송(user->bot), sendbutton 클릭시 process_question 발동
+   sendButton.addEventListener('click', () => {
+    const message = messageInput.value.trim();
+    if (message === '') return;
+
+    // 세션 스토리지에 저장된 유저정보(id), 난이도(level), 대화id(conv_id) 가져옴
+    const userId = sessionStorage.getItem('userId');
+    const level = sessionStorage.getItem('level');
+    const conv_id = sessionStorage.getItem('conv_id');
+    const question_id = sessionStorage.getItem('question_id')
+
+    // user가 보낸 메세지 출력
+    appendMessage(message, 'user');
+    messageInput.value = '';
+    fetch('/api/question/process/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({ question: message , conv_id: conv_id, userId: userId, level: level, question_id: question_id}),
     })
+    .then(response => response.json())
+    .then(data => { // ai 답받아서 appendMessage(bot)로 출력
+        if(data.status == 'success'){
+            // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
+            const ai_response = data.ai_response;
+            appendMessage(ai_response, 'bot');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+})
 
     // 메시지 입력 필드에서 엔터 키를 눌렀을 때 이벤트 리스너 추가
     messageInput.addEventListener('keypress', function(event) {
@@ -270,3 +377,50 @@ document.addEventListener('DOMContentLoaded', function () {
         newWindow.focus();
     });
 });
+
+
+
+
+
+
+    document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // 좋아요 버튼 클릭 이벤트 처리
+        const messageId = this.closest('.message').getAttribute('data-message-id');
+        sendReaction(messageId, 'like');
+    });
+});
+
+document.querySelectorAll('.dislike-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // 싫어요 버튼 클릭 이벤트 처리
+        const messageId = this.closest('.message').getAttribute('data-message-id');
+        sendReaction(messageId, 'dislike');
+    });
+});
+
+function sendReaction(messageId, reaction) {
+    // AJAX 요청 보내기
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/save_message/', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            // 요청 완료 후 처리
+            if (xhr.status === 200) {
+                // 성공적으로 처리된 경우
+                console.log('Reaction sent successfully');
+            } else {
+                // 요청 실패한 경우
+                console.error('Failed to send reaction');
+            }
+        }
+    };
+    const data = JSON.stringify({ messageId, reaction });
+    xhr.send(data);
+}
+
+
+
+
+
