@@ -86,7 +86,7 @@ def get_questions_by_level(request):
 # 모델(llm), 메모리객체(memory), chain -> 세션, 캐시저장 다 안됨....(직렬화 안되는 객체)
 # 전역변수로 설정
 # 모델 생성 - api불러오기
-llm = ChatOpenAI(temperature=0.1, model='gpt-4-turbo')
+llm = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo')
 
 # 대화 저장하는 메모리 객체
 memory = ConversationBufferMemory(

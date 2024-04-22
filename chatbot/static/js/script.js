@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 세션 스토리지에 저장된 유저정보(id) 가져옴
             const userId = sessionStorage.getItem('userId');
             // 질문 내용 대화창에 입력
-            appendMessage(questionContent, 'user');
+            appendMessage(questionContent, 'user', '/static/images/user.png');
             fetch('/api/question/start/', {
                 method: 'POST',
                 headers: {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if(data.status == 'success'){
                 // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
                     const ai_response = data.ai_response;
-                    appendMessage(ai_response, 'bot');
+                    appendMessage(ai_response, 'bot','/static/images/profile.png');
                     // conversation_id 세션 스토리지에 저장
                     sessionStorage.setItem('conv_id', data.conversation_id)
                     loadingScreen.style.display = 'none'; // 추가 - 사라지도록
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingScreen.style.display = 'flex'; // 추가 - 보이도록
         const userId = sessionStorage.getItem('id');
         // 챗봇으로 선택된 문제 전송
-        appendMessage(selectedQuestion, 'user');
+        appendMessage(selectedQuestion, 'user','/static/images/user.png');
         fetch('/api/question/start/', {
             method: 'POST',
             headers: {
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if(data.status == 'success'){
                 // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
                 const ai_response = data.ai_response;
-                appendMessage(ai_response, 'bot');
+                appendMessage(ai_response, 'bot', '/static/images/profile.png');
                 // conversation_id 세션 스토리지에 저장
                 sessionStorage.setItem('conv_id', data.conversation_id)
                 loadingScreen.style.display = 'none'; // 추가 - 사라지도록
@@ -124,14 +124,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 챗봇 대화창에 메세지 출력(user(회), bot(초))
     const chatHistory = document.querySelector('.chat-history');
-    function appendMessage(message, sender) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message', sender);
-        messageElement.textContent = message;
-        chatHistory.appendChild(messageElement);
 
-        // 새 메시지를 추가한 후 스크롤을 가장 아래로 이동
+
+    function appendMessage(message, sender, imageSrc) {
+        let messageElement = document.createElement('div');
+        messageElement.classList.add('message', sender);
+    
+        let contentElement = document.createElement('div');
+        contentElement.classList.add('content');
+    
+        // 줄바꿈을 <br>로 변환f
+        let formattedMessage = message.replace(/\n/g, '<br>');
+    
+        // 코드 블록이 있다면 처리
+        const codePattern =  /```python\s*([\s\S]*?)```/g; // 백틱으로 감싸진 부분 찾기
+        let codeMatches = formattedMessage.match(codePattern);
+    
+        if (codeMatches) {
+            // 코드 블록을 <pre><code>로 변환
+            codeMatches.forEach(match => {
+                let codeContent = match.replace(/```python\s*|```/g, '').trim();// 백틱 제거
+                let codeBlock = `<pre><code>${codeContent}</code></pre>`;
+                formattedMessage = formattedMessage.replace(match, codeBlock);
+            });
+        }
+    
+        
+        contentElement.innerHTML = formattedMessage;
+    
+        let imageElement = document.createElement('img');
+        imageElement.classList.add('avatar');
+        imageElement.src = imageSrc;
+        messageElement.appendChild(imageElement);
+        messageElement.appendChild(contentElement);
+
+    
+        // 생성된 메시지 요소를 채팅 히스토리에 추가
+        chatHistory.appendChild(messageElement);
         chatHistory.scrollTop = chatHistory.scrollHeight;
+    
+        // 코드 강조 라이브러리 적용
+        if (codeMatches) {
+            const codeElements = messageElement.querySelectorAll('code');
+            codeElements.forEach(code => {
+                if (typeof hljs !== 'undefined') {
+                    hljs.highlightElement(code);
+                }
+            });
+        }
     }
 
 
@@ -144,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingScreen.style.display = 'flex'; // 추가 - 보이도록
         if (message === '') return;
         // user가 보낸 메세지 출력
-        appendMessage(message, 'user');
+        appendMessage(message, 'user' , '/static/images/user.png');
         messageInput.value = '';
         const conv_id = sessionStorage.getItem('conv_id');
         fetch('/api/question/process/', {
@@ -160,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if(data.status == 'success'){
                 // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
                 const ai_response = data.ai_response;
-                appendMessage(ai_response, 'bot');
+                appendMessage(ai_response, 'bot', '/static/images/profile.png');
                 loadingScreen.style.display = 'none'; // 추가 - 사라지도록
             }
         })
