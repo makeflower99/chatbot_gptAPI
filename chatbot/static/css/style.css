@@ -1,81 +1,230 @@
 body, html {
     height: 100%;
     margin: 0;
+    font-family: sans-serif;
+    background-image: linear-gradient(to top, #f0e6ff 0%, #9874f9 100%);
+}
+
+
+
+
+.top-bar {
+    display: flex;
+    justify-content: space-between; /* 요소들을 좌우에 정렬 */
+    align-items: center; /* 요소들을 수직 가운데 정렬 */
+    height: 50px; /* 최소 높이 설정 */
+    width: 100%;
+    background-color: #f0f0f0;
+    padding: 10px 0;
+    margin-left: auto; /* 왼쪽 여백 최대화 */
+    background-image: linear-gradient(to top, #9874f9 90%, #9b81e3 120%);
+}
+
+/* 로고 */
+.top-bar p#top{
+    margin: 0;
+    margin-right: auto; /* 왼쪽 여백 최대화 */
+    margin-left: 10px; /* 오른쪽 여백 설정 */
+    font-family: fantasy;
+    font-size: 40px;
+    color: #4e10ba;
+    background-image: linear-gradient(to top, #9874f9 90%, #9b81e3 120%);
+    align-self: center; /* 요소를 수직 가운데 정렬 */
+}
+
+/* 유저정보 */
+.top-bar p{
+    margin-left: auto; /* 오른쪽 여백 최대화 */
+    text-align: right;
+}
+
+/* 로그아웃 */
+.top-bar a {
+    margin-left: auto; /* 오른쪽 여백 최대화 */
+    text-align: right;
+    margin-right: 20px; /* 오른쪽 마진으로 여백 제공 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #333; /* 링크 색상 */
+    font-weight: bold; /* 글꼴 굵기 */
+    margin-left: 20px; /* 로그아웃 버튼과 사용자 정보 사이의 간격 */
+    /* border: 1px solid #000000; /* 검은색 테두리 */
+    /* border-radius: 5px; 모서리를 둥글게  */
 }
 
 
 .container {
     display: flex;
-    height: 100vh;
-    flex-direction: row; /* 수정: 가로 방향으로 배치 */
+    height: calc(100% - 50px); /* .top-bar 높이를 제외한 나머지 높이 */
+    flex-direction: row; /* 가로 방향으로 배치 */
+    overflow: hidden; /* 내부에서 스크롤이 필요한 경우를 제외하고는 오버플로우 숨김 */
 }
 
+/* 왼쪽 패널 - 문제, 잔디 */
 .sidebar {
-    flex: 1; /* 왼쪽 패널 너비 조정 */
-    max-width: 40%; /* 최대 너비를 50%로 제한 */
+    flex: 0 0 40%; /* grow shrink basis */
+    max-width: 40%; /* 최대 너비를 40%로 제한 */
     flex-wrap: wrap; /* 요소가 너무 많을 때 줄바꿈하도록 설정 */
     flex-direction: row; /* 요소를 가로로 배치 */
     background-color: #f0f0f0; /* 회색 배경색 */
     overflow-y: auto;
+    box-sizing: border-box;
+    background-image: linear-gradient(to top, #f0e6ff 0%, #9874f9 100%);
+    position: relative; /* 자식 요소인 plotly-graph-container의 위치 기준점 설정 */
+    height: 100%; 
 }
 
 .level-container {
-    display: inline-block; /* 요소 가로로 배치 */
-    align-items: center;
-    flex-direction: row; /* 요소를 가로로 배치 */
-    margin-right: 10px; /* 버튼 사이의 간격 조절 */
+    display: flex; /* flex 컨테이너로 설정 */
+    flex-wrap: wrap; /* 내부 요소가 많을 때 다음 줄로 넘김 */
+    margin-right: -10px; /* 내부 버튼의 마지막 오른쪽 간격 조정 */
 }
 
 .level-btn {
-    display: flex;
+    background: #5a4865;
+    margin : 5px auto;
+    width : 300px;
+    height : 50px;
+    overflow: hidden;
+    text-align : center;
     align-items: center;
+    cursor : pointer;
+    display: flex;
     justify-content: center;
-    flex-direction: row; /* 버튼 안의 요소를 가로로 배치 */
-    margin-right: 10px; /* 버튼 사이의 간격 조절 */
-    width: 100px; /* 버튼 너비 조절 */
-    height: 100px; /* 버튼 높이 조절 */
+    transition : .2s;
+    flex-direction: row;
+    margin-right: 10px;
+    border-radius: 3px;
+    box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+}
+.btnTwo {
+  position : relative;
+  width : 150px;
+  height : 100px;
+  margin-top: -50px;
+  padding-top: 2px;
+  background : #322664;
+  left : -300px;
+  transition : .3s;
+}
+.btnText {
+  color : white;
+  font-weight: bold;
+  font-size: 20px;
+  transition : .3s;
+  text-align: center;
+}
+.btnText2 {
+  margin-top : 63px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-right : -130px;
+  color : #FFF;
+}
+.level-btn:hover .btnTwo{ /*When hovering over .button change .btnTwo*/
+  left: -150px;
+}
+.level-btn:hover .btnText{ /*When hovering over .button change .btnText*/
+  margin-left : 65px;
+}
+.level-btn:active { /*Clicked and held*/
+  box-shadow: 0px 5px 6px rgba(0,0,0,0.3);
 }
 
-.level-image {
-    width: 50px !important; /* 이미지 너비 조절 */
-    height: auto !important; /* 이미지 높이 자동 조절 */
+
+
+.random-question-btn {
+    width: 120px;
+    height: 40px;
+    background-color: #4e10ba ; /* 배경색 설정 */
+    color: white; /* 글자색은 흰색으로 */
+    padding: 0 5px; /* 상하 10px, 좌우 20px 패딩 */
+    border: none; /* 테두리 없애기 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+    cursor: pointer; /* 마우스를 올렸을 때 커서 모양 변경 */
+    font-size: 14px; /* 글자 크기 */
+    transition: background-color 0.3s; /* 배경색 변경 효과 */
+    line-height: normal; /* line-height 조정 */
+}
+
+.random-question-btn:hover {
+    background-color: #5a17ce; /* 마우스 오버 시 밝은색으로 변경 */
 }
 
 
-.question-item {
-    display: inline-block; /* 또는 block, 필요에 따라 */
-    padding: 10px 20px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    cursor: pointer; /* 마우스 오버 시 손가락 커서 표시 */
-    transition: background-color 0.3s; /* 마우스 오버 애니메이션 */
+
+
+/* 난이도 선택 후 질문 생성 컨테이너 */
+.questions-container {
+    display: none;
+    /* width: 400px; 가로 길이 */
+    max-height: 400px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤바가 필요할 때만 표시 */
+    /* border: 3px solid black; 컨테이너 테두리 */
+    transition: background-color 1s ease; /* 부드러운 색상 변화 */
+    background-color: #a6cab5; /* 마우스를 올렸을 때의 배경색 */
+    margin: 20px 20px; /* 상하 마진, 좌우 마진은 자동으로 중앙 정렬 */
 }
 
-.question-item:hover {
-    background-color: #e2e2e2; /* 마우스 오버 시 배경색 변경 */
+
+.question-text-container {
+    padding: 10px; /* 내용과의 간격 */
+    margin: 5px 0; /* 질문들 사이의 간격 */
+    border: 1px solid transparent; /* 기본 테두리 설정 (투명) */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+}
+
+.question-text-container:hover {
+    background-color:  #008744cc; /* hover 시 배경색 변경 */
+    border-color: #ddd; /* hover 시 테두리색 변경 */
+}
+
+
+/* 잔디 기능 */
+.plotly-graph-container {
+    display: flex;
+    flex-direction: column;
+    height: 200px !important;
+    align-items: center;
+    position: absolute; /* sidebar 내에서 위치 고정 */
+    bottom: 0px; /*하단에 고정 바닥으로부터 20px 위로*/
+    width: 100%; /* sidebar 너비에 맞춤 */
+}
+
+#plotly-graph {
+    width: 80%; /*그래프의 폭을 부모 요소 대비 80%로 설정*/
+    margin: 0 auto; /* 상하 마진, 좌우 마진은 자동으로 중앙 정렬 */
+}
+
+
+.sidebar * {
+    max-width: 100%; /* 최대 너비를 사이드바의 100%로 설정 */
+    word-break: break-word; /* 긴 단어가 있을 경우 줄바꿈 */
 }
 
 
 
 
+/* 오른쪽 패널 - 채팅부분 */
 .chat-container {
     display: flex;
     flex-direction: column;
-    flex: 1; /* 오른쪽 패널이 남은 공간을 채우도록 함 */
-    max-width: 60%; /* 최대 너비를 50%로 제한 */
-    background-color: #ffffff; /* 흰색 배경색 */
-    /* height: 100%;
-    position: relative; 부모 컨테이너에 대해 상대적 위치 설정 */
-    overflow-y: auto;
+    flex: 0 0 60%;
+    max-width: 60%; /* 최대 너비를 60%로 제한 */
+    background-image: linear-gradient(to top, #fcfcfc 0%, #ffffff 100%);
+    border-radius: 15px;
+    padding: 20px;
+    height: 100%;
+    position: relative; /*부모 컨테이너에 대해 상대적 위치 설정*/
 }
 
 
 .chat-history {
-    flex: 1;
+    flex: 1; 
+    position:absolute;
     overflow-y: auto;
-    border-bottom: 1px solid #eee;
     padding-bottom: 20px;
+    height: calc(100% - 80px); /* user-input의 높이를 고려 */
 }
 
 .message {
@@ -84,61 +233,108 @@ body, html {
     border-radius: 5px;
 }
 
-.message.user {
+/* .message.user {
     background-color: #f5f6f7;
 }
 
 .message.bot {
     background-color: rgba(0, 135, 68, .8);
     color: #fff;
+} */
+
+.message.user {
+    background-color: hsl(240, 79%, 93%);
+    font-family: sans-serif;
+    font-weight: bold;
+    display: inline-block; /* 인라인 블록으로 설정 */
+    max-width: 80%; /* 최대 너비 지정 */
+    float: right; /* 박스를 우측으로 정렬 */
+    clear: both; /* 레이아웃을 초기화하여 다음 요소 아래에 표시 */
 }
+.message.bot {
+    background-color: #e1e1e1;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #1d1b1b;
+    display: inline-block; /* 인라인 블록으로 설정 */
+    max-width: 80%; /* 최대 너비 지정 */
+    float: left; /* 박스를 좌측으로 정렬 */
+    clear: both; /* 레이아웃을 초기화하여 다음 요소 아래에 표시 */
+}
+
 
 /* 채팅입력창 아래 고정 */
 .user-input {
     display: flex;
     align-items: center;
-    /* margin-top: 20px; */
-    position: fixed; /* 위치를 고정 */
+    justify-content: space-between;
+    position: absolute; /* 위치를 고정 */
     bottom: 0; /* 하단에 위치 */
-    left: 1; /* 왼쪽 정렬 왼오 0 이면 중앙인듯? */
-    right: 1; /* 오른쪽 정렬 왼오 0 이면 중앙인듯?*/
+    left: 0; /* 왼쪽 정렬 부모 컨테이너 양쪽 끝으로 확장*/
+    right: 0; /* 오른쪽 정렬 */
     padding: 10px; /* 패딩 추가 */
     background-color: #ffffff;
-    width: 60%;
-    margin-left: auto; /* 중앙 정렬을 위해 필요 >근데 이건 왜 필요한지 모르겠네*/
-    margin-right: auto; /* 중앙 정렬을 위해 필요 >이것도 마찬가지*/
+    width: 100%;
+    height: 60px;
+    border-top: 1px solid #eee;
 }
 
 .message-input {
     flex: 1;
     padding: 10px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc;
     border-radius: 5px;
-    margin-right: 10px;
+    margin-right: 10px; */
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(236, 228, 252, 0.8);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.send-button {
-    border: none;
+
+.message-input:focus {
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* .send-button {
+    border: 1px solid #ccc;
     background-color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+} */
+
+.send-button {
+    border: none;
+    background: linear-gradient(to right, #a681fc, #f098c8); /* 옅은 오렌지색 배경 */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 10px rgba(238, 142, 227, 0.5); /* 약간의 그림자 효과 */
+    font-weight: bold; /* 텍스트를 굵게 표시 */
+    font-family: 'Arial', sans-serif; /* 원하는 글꼴로 변경 */
+}
+
+.send-button:hover {
+    background: linear-gradient(to right, #8e4473, #ad4891); /* 조금 더 진한 오렌지색 배경 */
+    transform: translateY(-2px); /* 약간 위로 이동 */
+    box-shadow: 0 6px 15px rgba(229, 117, 210, 0.7); /* 그림자 효과 강화 */
+}
+
+.send-button:focus {
+    outline: none;
 }
 
 
-/* 로그아웃 위로 */
-.top-bar {
-    width: 100%;
-    background-color: #f0f0f0; /* 배경색 설정 */
-    padding: 10px 0; /* 상하 패딩 */
-    text-align: right; /* 텍스트를 오른쪽 정렬 */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 그림자 효과 */
-    text-align: right;
+
+
+/* 전체 적용 - 전체 스크롤 없애기 */
+* {
+box-sizing: border-box; 
 }
 
-.top-bar a {
-    margin-right: 20px; /* 오른쪽 마진으로 여백 제공 */
-    text-decoration: none; /* 링크 밑줄 제거 */
-    color: #333; /* 링크 색상 */
-    font-weight: bold; /* 글꼴 굵기 */
-}
