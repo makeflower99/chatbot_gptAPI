@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from .models import User
-from django.http import JsonResponse
 
 
 # Create your views here.
@@ -44,15 +42,3 @@ def signup_view(request) :
         user.save()
         return redirect("user:login")  # 로그인 창으로 돌려보냄
     return render(request, "users/signup.html")
-
-
-@login_required
-def get_user_info(request):
-    user = request.user
-    if user.is_authenticated:
-        return JsonResponse({
-            'id': user.id,
-            'username': user.username,
-        })
-    else:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)

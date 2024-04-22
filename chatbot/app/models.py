@@ -26,6 +26,7 @@ class Message(models.Model):
     sender = models.CharField(max_length=10, choices=(('user', 'User'), ('ai', 'AI')))  # 메시지 발신자
     content = models.TextField()  # 메시지 내용
     timestamp = models.DateTimeField(auto_now_add=True)  # 메시지 전송 시간, 자동으로 현재 시간 설정
+    reaction = models.CharField(max_length=10, default='none')
 
     def __str__(self):
         return f"Message from {self.sender} at {self.timestamp}"
