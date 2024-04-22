@@ -7,44 +7,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>코딩을 풀어주는 챗봇 CopleChat</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src='https://cdn.plot.ly/plotly-2.31.1.min.js'></script> 
 </head>
 <body>
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-    <p>페이지 확인</p>
+
+    <div class="top-bar">
+        <p id="top"><b>🤖 cople chat 🤖</b></p>
+        <!-- 현재 로그인한 유저 정보 -->
+        <p>User: {{ user.username }}</p>
+        <!-- 로그아웃 버튼 -->
+        <a href="{% url 'user:logout' %}">로그아웃</a>
+    </div>
+
     <div class="container">
+        <!-- 왼쪽 패널 -->
         <div class="sidebar">
-            {% load custom_filters %}
-            {% for level in levels %}
-                {% if level in level_images.keys %}
-                    <div class="level-container">
+            <!-- 난이도 -->
+            <div class="level-container">
+                {% load custom_filters %}
+                {% for level in levels %}
                         <button class="level-btn" data-level="{{ level }}">
-                            <img src="{{ level_images|get_item:level }}" alt="Level {{ level }}" class="level-image">
-                            <span>level {{ level }}</span>
+                            <p class="btnText">LEVEL {{level}}</p>
+                            <div class="btnTwo">
+                                <p class="btnText2">GO!</p>
+                            </div>
                         </button>
-                    </div>
-                {% endif %}
-            {% endfor %}
-            <div class="questions-container">
-                <ul>
-                    {% for question in random_questions %}
-                        <li class="question-item"><button type="button">{{ question }}</button></li>
-                    {% endfor %}
-                </ul>
+                {% endfor %}
+                        <!-- 랜덤 문제 보기 버튼 -->
+                        <button class="random-question-btn">랜덤 문제 보기</button>
             </div>
+
+            <div class="questions-container">
+                <div class="question-text-container">
+                    <!-- 질문 생성되어서 들어감 -->
+                </div>
+            </div>
+    
+
+
+            <!-- 잔디 기능 -->
+            <div class="plotly-graph-container">
+                <p>{{user.username}} 의 활동현황</p>
+                <!-- plotly 그래프를 출력할 영역 -->
+                <div id="plotly-graph" style="height:100px">
+                </div>
+            </div>
+
         </div>
 
-        
+        <!-- 오른쪽 패널 -->
         <div class="chat-container">
             <div class="chat-history">
-                <!-- 대화 히스토리가 여기에 표시됩니다. -->
+                <!-- 대화 히스토리가 여기에 표시 -->
             </div>
             <div class="user-input">
+                <button id="addMemoBtn">코드 작성 메모장</button>
                 <input type="text" class="message-input" placeholder="메시지를 입력하세요...">
                 <button class="send-button">전송</button>
             </div>
         </div>
-    </div>
 
+    </div>
+    <script>
+        // Django 템플릿에서 JavaScript 변수로 변환
+        const heatmapArray = JSON.parse('{{ heatmap_array|safe }}');
+    </script>
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

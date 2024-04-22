@@ -19,10 +19,13 @@ from django.urls import path, include
 
 from app import views
 
+
+
 urlpatterns = [
     path('main/', views.main_page, name='main_page'),
     path("admin/", admin.site.urls),
-    path('api/level/', views.get_random_questions, name='get_random_questions'),
-    path('api/question/', views.process_question, name='process_question'),
-    path('', include('users.urls'))
+    path('api/level/', views.get_questions_by_level, name='get_questions_by_level'),
+    path('api/question/start/', views.start_conversation, name='start_conversation'),
+    path('api/question/process/', views.process_question, name='process_question'),
+    path('', include('users.urls')),
 ]

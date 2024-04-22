@@ -18,3 +18,23 @@
 <a href="{% url 'user:signup' %}">회원가입</a>
 
 {% endif %}
+<script>
+    fetch('api/get_user_info/')  // 실제 API 뷰 URL로 수정
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 올바르지 않습니다.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);  
+        // 세션 스토리지에 저장
+        sessionStorage.setItem('userId', data.id);
+    })
+    .catch(error => {
+        console.error('fetch 작업 중 문제가 발생했습니다:', error);
+    });
+
+
+
+</script>
