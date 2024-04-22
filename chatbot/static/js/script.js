@@ -2,7 +2,7 @@
 // 동적으로 발생하는 함수들
 document.addEventListener('DOMContentLoaded', function () {
     const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-    
+    var loadingScreen = document.getElementById('loading');
 
     // 레벨 버튼을 누르면 레벨에 맞는 모든 질문 생성
     const levelButtons = document.querySelectorAll('.level-btn');
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
     questionButtons.addEventListener('click', (event) => {
         // const questionItem = event.target.closest('.questions-container');
         const questionItem = event.target.closest('.question-text-container');
-        
+        loadingScreen.style.display = 'flex'; // 추가 - 보이도록
         if (questionItem) {
             const questionContent = event.target.textContent;
             // 세션 스토리지에 저장된 유저정보(id) 가져옴
@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     appendMessage(ai_response, 'bot');
                     // conversation_id 세션 스토리지에 저장
                     sessionStorage.setItem('conv_id', data.conversation_id)
+                    loadingScreen.style.display = 'none'; // 추가 - 사라지도록
                 }
 
             })
@@ -92,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const questionItems = document.querySelectorAll('.question-text');
         const randomIndex = Math.floor(Math.random() * questionItems.length);
         const selectedQuestion = questionItems[randomIndex].textContent;
-
+        loadingScreen.style.display = 'flex'; // 추가 - 보이도록
         const userId = sessionStorage.getItem('id');
         // 챗봇으로 선택된 문제 전송
         appendMessage(selectedQuestion, 'user');
@@ -112,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 appendMessage(ai_response, 'bot');
                 // conversation_id 세션 스토리지에 저장
                 sessionStorage.setItem('conv_id', data.conversation_id)
+                loadingScreen.style.display = 'none'; // 추가 - 사라지도록
             }
         })
         .catch(error => {
@@ -139,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 메세지 전송(user->bot), sendbutton 클릭시 process_question 발동
     sendButton.addEventListener('click', () => {
         const message = messageInput.value.trim();
+        loadingScreen.style.display = 'flex'; // 추가 - 보이도록
         if (message === '') return;
         // user가 보낸 메세지 출력
         appendMessage(message, 'user');
@@ -158,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
                 const ai_response = data.ai_response;
                 appendMessage(ai_response, 'bot');
+                loadingScreen.style.display = 'none'; // 추가 - 사라지도록
             }
         })
         .catch((error) => {
@@ -217,16 +221,12 @@ document.addEventListener('DOMContentLoaded', function () {
         Plotly.Plots.resize(document.getElementById('plotly-graph'));
     };
 
-
-    
     // 메모장 실행
     document.getElementById('addMemoBtn').addEventListener('click', function() {
         var newWindow = window.open('', '_blank', 'width=600,height=400');
         var textarea = document.createElement('textarea');
-        textarea.style.width = (newWindow.innerWidth - 20) + 'px'; // textarea의 너비 조정
-        textarea.style.height = (newWindow.innerHeight - 20) + 'px'; // textarea의 높이 조정
+        textarea.style.cssText = 'width: 100%; height: 100%;'; // textarea 스타일 조정
         newWindow.document.body.appendChild(textarea);
         newWindow.focus();
-});
-
+    });
 });
