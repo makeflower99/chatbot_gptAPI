@@ -36,7 +36,6 @@ body, html {
     color: rgb(95, 80, 193);
     /* background-image: linear-gradient(to top, #9874f9 90%, #9b81e3 120%); */
     /* align-self: center; 요소를 수직 가운데 정렬 */
-    background-image: url('cute.png'), linear-gradient(to top, #9874f9 90%, #9b81e3 120%);
     background-position: calc(100% - 600px) top, right top; /* 첫 번째 값이 이미지, 두 번째 값이 선형 그라데이션 */
     background-size: 50%, auto; /* 첫 번째 값이 이미지의 크기, 두 번째 값이 선형 그라데이션의 크기 */
     background-repeat: no-repeat, no-repeat; /* 각 배경 이미지에 대한 반복 설정 */
@@ -109,6 +108,7 @@ body, html {
     position: relative;
     background: #5a4865;
     margin : 5px auto;
+    margin-left: 5px;
     width : 200px;
     height : 50px;
     overflow: hidden;
@@ -170,6 +170,7 @@ body, html {
 .random-question-btn {
     display: none; /* 추가 */
     font-family: 'BMJUA';
+    margin-left: 20px;
     width: 200px;
     height: 50px;
     background-color: #ca7bf5 ; /* 배경색 설정 */
@@ -304,18 +305,47 @@ body, html {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    position: absolute;
-    right: 0; /* 오른쪽에 위치하도록 설정 */
 }
 
+.likebutton {
+    text-align: center;
+    background: none;   
+    width: 60px; 
+    height: 40px;     
+    font-size: 25px;          
+    border-radius: 10%;        
+    border: none;             
+    cursor: pointer;    
+    margin-left: 15px;      
+}
+.dislikebutton{
+    text-align: center;
+    background: none;     
+    width: 60px; 
+    height: 40px;          
+    font-size: 25px;          
+    border-radius: 10%;        
+    border: none;             
+    cursor: pointer; 
+    margin-left: 15px;    
+}
 
+.likebutton:hover{
+    background-color:  #808080cc; /* hover 시 배경색 변경 */
+    border-color: #757575; /* hover 시 테두리색 변경 */
+}
+
+.dislikebutton:hover{
+    background-color:  #808080cc; /* hover 시 배경색 변경 */
+    border-color: #757575; /* hover 시 테두리색 변경 */
+}
 
 /* 채팅입력창 아래 고정 */
 .user-input {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: absolute; /* 위치를 고정 */
+    position: relative; /* 위치를 고정 */
     bottom: 0; /* 하단에 위치 */
     left: 0; /* 왼쪽 정렬 부모 컨테이너 양쪽 끝으로 확장*/
     right: 0; /* 오른쪽 정렬 */
@@ -326,9 +356,32 @@ body, html {
     border-top: 1px solid #eee;
 }
 
+.text-book {
+    margin-top: 40px;
+    flex-direction: column;
+    font-size: 20px;
+    margin-left: -15px;
+}
+
+
+.image-button img {
+    width: 30px; /* 이미지의 가로 크기 */
+    height: 40px; /* 이미지의 세로 크기 */
+    object-fit: contain; /* 이미지를 컨테이너에 맞게 조정 */
+}
+
+.text{
+    color: #000000;
+    margin-top: 0px;
+    font-family: 'BMJUA';
+    font-size: 20px;
+    margin-top: -15px; 
+}
+
 .message-input {
     flex: 1;
     padding: 10px;
+    margin-left: 10px;
     /* border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 10px; */

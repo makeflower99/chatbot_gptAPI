@@ -78,7 +78,14 @@
                 LOADING...
             </div>
             <div class="user-input">
-                <button id="addMemoBtn">코드 작성 메모장</button>
+                <div class="text-book">
+                    <button id="addMemoBtn" class="image-button">
+                        <img src="{% static 'images/notepad.svg' %}" alt="메모장" /> 
+                    </button>
+                    <div class="text">
+                        <p>메모장</p>
+                    </div>
+                </div>
                 <input type="text" class="message-input" placeholder="메시지를 입력하세요...">
                 <button class="send-button">전송</button>
             </div>
