@@ -11,7 +11,7 @@ from langchain.schema.runnable import RunnablePassthrough
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 import os
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 
 # Logger 객체 생성
 logger = logging.getLogger(__name__)
