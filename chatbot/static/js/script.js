@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
            // 세션 스토리지에 저장된 유저정보(id) 가져옴
            const userId = sessionStorage.getItem('userId');
            // 질문 내용 대화창에 입력
-           appendMessage(questionContent, 'user');
+           appendMessage(questionContent, 'user', '/static/images/user.png');
            fetch('/api/question/start/', {
                method: 'POST',
                headers: {
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
                if(data.status == 'success'){
                    // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
                    const ai_response = data.ai_response;
-                   appendMessage(ai_response, 'bot');
+                   appendMessage(ai_response, 'bot','/static/images/profile.png');
                    
                    // quesiont_id 세션 스토리지 저장
                    sessionStorage.setItem('question_id', data.question_id)
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const randomIndex = Math.floor(Math.random() * questionItems.length);
         const selectedQuestion = questionItems[randomIndex].textContent;
         loadingScreen.style.display = 'flex'; // 추가 - 보이도록
-        const userId = sessionStorage.getItem('id');
+        const userId = sessionStorage.getItem('userId'); // 'userId'로 수정
         // 챗봇으로 선택된 문제 전송
         appendMessage(selectedQuestion, 'user','/static/images/user.png');
         fetch('/api/question/start/', {
@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data); // 응답 확인을 위해 데이터를 콘솔에 출력
             if(data.status == 'success'){
                 // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
                 const ai_response = data.ai_response;
@@ -170,12 +171,12 @@ document.addEventListener('DOMContentLoaded', function () {
     if (sender === 'bot') {
         const likebutton = document.createElement('button');
         likebutton.classList.add('likebutton', sender);
-        likebutton.textContent = '좋아요';
+        likebutton.textContent = '👍';
         messageElement.appendChild(likebutton);
 
         const dislikebutton = document.createElement('button');
         dislikebutton.classList.add('dislikebutton', sender);
-        dislikebutton.textContent = '싫어요';
+        dislikebutton.textContent = '👎';
         messageElement.appendChild(dislikebutton);
     }
 
@@ -267,14 +268,14 @@ document.addEventListener('DOMContentLoaded', function () {
         chatHistory.scrollTop = chatHistory.scrollHeight;
     
         // 코드 강조 라이브러리 적용
-        if (codeMatches) {
-            const codeElements = messageElement.querySelectorAll('code');
-            codeElements.forEach(code => {
-                if (typeof hljs !== 'undefined') {
-                    hljs.highlightElement(code);
-                }
-            });
-        }
+        // if (codeMatches) {
+        //     const codeElements = messageElement.querySelectorAll('code');
+        //     codeElements.forEach(code => {
+        //         if (typeof hljs !== 'undefined') {
+        //             hljs.highlightElement(code);
+        //         }
+        //     });
+        // }
     }
 
 

@@ -1,17 +1,72 @@
-회원가입 페이지
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5e9ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-<br>
+        .signup-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
 
-<form action = "" method = "POST">
+        .signup-container form {
+            margin-bottom: 30px;
+        }
 
-    {% csrf_token %}
-    <p>아이디</p>
-    <input name = "username" type = "text">
-    <p>성명</p>
-    <input name = "Fullname" type = "text">
-    <p>비밀번호</p>
-    <input name = "password" type = "password">
-    <p>이메일</p>
-    <input name = "Email" type = "text">
-    <input type = "submit" value = "회원가입">
-</form>
+        .signup-container input[type="text"],
+        .signup-container input[type="password"],
+        .signup-container input[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .signup-container input[type="submit"] {
+            background-color: #c08cca;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .signup-container input[type="submit"]:hover {
+            background-color: #694a7b;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <p>아이디</p>
+            <input name="username" type="text" placeholder="아이디">
+            <p>성명</p>
+            <input name="fullname" type="text" placeholder="성명">
+            <p>비밀번호</p>
+            <input name="password" type="password" placeholder="비밀번호">
+            <p>이메일</p>
+            <input name="email" type="text" placeholder="이메일">
+            <input type="submit" value="회원가입">
+        </form>
+    </div>
+</body>
+</html>
