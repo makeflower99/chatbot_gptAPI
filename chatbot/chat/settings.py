@@ -26,7 +26,10 @@ SECRET_KEY = "django-insecure-um0^g!qmhpsmp9y1czigulh)xd(fg+e-9mg0ioi8fim&)w(cy!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    ".ap-northeast-2.compute.amazonaws.com",
+    "127.0.0.1"
+]
 
 
 # Application definition
@@ -39,7 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "app"
+    "app",
+    "users"
 ]
 
 MIDDLEWARE = [
@@ -124,11 +128,12 @@ USE_TZ = False
 
 # 정적파일 경로 설정
 STATIC_URL = "/static/"
-
 # 정적 파일 찾을 경로 설정
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -152,3 +157,8 @@ LOGGING = {
         },
     },
 }
+
+
+# LOGIN_REDIRECT_URL = '/'
+
+AUTH_USER_MODEL = 'users.User'
