@@ -130,7 +130,7 @@ USE_TZ = False
 STATIC_URL = "/static/"
 
 # 정적 파일 찾을 경로 설정
-STATICFILES_DIRS = [
+STATIC_ROOT = [
     os.path.join(BASE_DIR, 'static')
 ]
 
