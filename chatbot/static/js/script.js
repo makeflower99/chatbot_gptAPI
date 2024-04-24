@@ -21,10 +21,13 @@ window.addEventListener("click", (event) => {
 
 
 
-
-
 // 동적으로 발생하는 함수들
 document.addEventListener('DOMContentLoaded', function () {
+    var specialWord = document.getElementById('special-word');
+    if (specialWord) {
+        specialWord.style.color = 'white'; // 코풀챗 색상 변경
+    }
+
     const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
     var loadingScreen = document.getElementById('loading');
 
@@ -33,10 +36,12 @@ document.addEventListener('DOMContentLoaded', function () {
     levelButtons.forEach(button => {
         button.addEventListener('click', () => {
             const level = button.dataset.level;
+            
             // 난이도 버튼 클릭시 생성
             const questionsContainer = document.querySelector('.questions-container');
             questionsContainer.style.display = 'block';
-            // 추가
+
+            // 난이도 버튼 눌렀을때 랜덤 버튼도 생기도록
             const randomQuestionBtn = document.querySelector('.random-question-btn');
             randomQuestionBtn.style.display = 'block';
             fetch('/api/level/', {
@@ -48,22 +53,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify({ level: level }),
             })
             .then(response => response.json())
-            .then(data => {
-                console.log("data ",data)
+            .then(data => { // 레벨에 맞는 questions
+                console.log(data.questions)
                 const questionsList = document.querySelector('.questions-container');
                 questionsList.innerHTML = ''; // 리스트 초기화
                 data.questions.forEach(questionObj => {
                     // 각 질문을 감싸는 컨테이너 생성
                     const questionContainer = document.createElement('div');
                     questionContainer.classList.add('question-text-container');
+
                     // 질문 텍스트를 위한 span 생성
-                    const textNode = document.createElement('span');
-                    textNode.textContent = questionObj.content;
-                    textNode.classList.add('question-text');
+                    const textNode1 = document.createElement('span');
+                    textNode1.textContent = questionObj.topic;
+                    textNode1.classList.add('topic-text');
                     // span을 컨테이너에 추가
-                    questionContainer.appendChild(textNode);
+                    questionContainer.appendChild(textNode1);
+
+                    // 질문 텍스트를 위한 span 생성
+                    const textNode2 = document.createElement('span');
+                    textNode2.textContent = questionObj.content;
+                    textNode2.classList.add('question-text');
+                    // span을 컨테이너에 추가
+                    questionContainer.appendChild(textNode2);
+                    
                     // 최종적으로 각 질문 컨테이너를 questionsList에 추가
                     questionsList.appendChild(questionContainer);
+                                        
+                    // 스크롤 맨 위로
+                    questionsList.scrollTop = 0;
                 });
             })
             .catch(error => {
@@ -72,63 +89,69 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
    // 질문 버튼 클릭시 서버로 질문 전송(user->bot)
    const questionButtons = document.querySelector('.questions-container')
    questionButtons.addEventListener('click', (event) => {
-       // const questionItem = event.target.closest('.questions-container');
-       const questionItem = event.target.closest('.question-text-container');
-       loadingScreen.style.display = 'flex'; // 추가 - 보이도록
-       if (questionItem) {
-           const questionContent = event.target.textContent;
+        const questionItem = event.target.closest('.question-text-container');
+        loadingScreen.style.display = 'flex'; // 추가 - 보이도록
+        if (questionItem) {
+            // question-content 클래스를 가진 요소에서 텍스트 내용을 가져옴
+            const questionContent = questionItem.querySelector('.question-text').textContent;
 
-           // 세션 스토리지에 저장된 유저정보(id) 가져옴
-           const userId = sessionStorage.getItem('userId');
-           // 질문 내용 대화창에 입력
-           appendMessage(questionContent, 'user', '/static/images/user.png');
-           fetch('/api/question/start/', {
-               method: 'POST',
-               headers: {
-                   'Content-Type': 'application/json',
-                   'X-CSRFToken': csrfToken,
-               },
-               body: JSON.stringify({ question: questionContent , userId: userId}),
-           })
-           .then(response => response.json())
-           .then(data => {
-               if(data.status == 'success'){
-                   // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
-                   const ai_response = data.ai_response;
-                   appendMessage(ai_response, 'bot','/static/images/profile.png');
-                   
-                   // quesiont_id 세션 스토리지 저장
-                   sessionStorage.setItem('question_id', data.question_id)
+            // 세션 스토리지에 저장된 유저정보(id) 가져옴
+            const userId = sessionStorage.getItem('userId');
+            // 질문 내용 대화창에 입력
+            appendMessage(questionContent, 'user', '/static/images/user.png');
+        
+            fetch('/api/question/start/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({ question: questionContent , userId: userId}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status == 'success'){
+                    // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
+                    const ai_response = data.ai_response;
+                    appendMessage(ai_response, 'bot','/static/images/profile.png');
+                    
+                    // quesiont_id 세션 스토리지 저장
+                    sessionStorage.setItem('question_id', data.question_id)
 
-                   // conversation_id 세션 스토리지에 저장
-                   sessionStorage.setItem('conv_id', data.conversation_id)
-                   loadingScreen.style.display = 'none'; // 추가 - 사라지도록
-               }
+                    // conversation_id 세션 스토리지에 저장
+                    sessionStorage.setItem('conv_id', data.conversation_id)
+                    loadingScreen.style.display = 'none'; // loading 사라지도록
+                }
 
-           })
-           .catch((error) => {
-               console.error('Error:', error);
-           });
-       }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
    });
     
 
 
  
-    // 랜덤 문제 보기 버튼 클릭 시 랜덤 문제 전송
+    // 랜덤 문제 보기 버튼 클릭 시 랜덤 문제 서버로 질문 전송(user->bot)
     const randomQuestionButton = document.querySelector('.random-question-btn');
     randomQuestionButton.addEventListener('click', () => {
+
         // 현재 화면에 보이는 모든 문제 중에서 무작위로 선택
         const questionItems = document.querySelectorAll('.question-text');
         const randomIndex = Math.floor(Math.random() * questionItems.length);
         const selectedQuestion = questionItems[randomIndex].textContent;
-        loadingScreen.style.display = 'flex'; // 추가 - 보이도록
+
+        loadingScreen.style.display = 'flex'; // loading 보이도록
         const userId = sessionStorage.getItem('userId'); // 'userId'로 수정
+
         // 챗봇으로 선택된 문제 전송
         appendMessage(selectedQuestion, 'user','/static/images/user.png');
+        
         fetch('/api/question/start/', {
             method: 'POST',
             headers: {
@@ -140,10 +163,13 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             console.log(data); // 응답 확인을 위해 데이터를 콘솔에 출력
+
             if(data.status == 'success'){
+
                 // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
                 const ai_response = data.ai_response;
                 appendMessage(ai_response, 'bot', '/static/images/profile.png');
+
                 // conversation_id 세션 스토리지에 저장
                 sessionStorage.setItem('conv_id', data.conversation_id)
                 loadingScreen.style.display = 'none'; // 추가 - 사라지도록
@@ -155,18 +181,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    // 챗봇 대화창에 메세지 출력(user(회), bot(초))
+    // 챗봇 대화창에 메세지 출력
     const chatHistory = document.querySelector('.chat-history');
 
-
     function appendMessage(message, sender, imageSrc) {
-        let messageElement = document.createElement('div');
-        messageElement.classList.add('message', sender);
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('message-container', sender);
+
+        // let messageElement = document.createElement('div');
+        // // messageElement.classList.add('message', sender);
+        // messageElement.classList.add('message');
     
+        // 코드부분 설정
         let contentElement = document.createElement('div');
-        contentElement.classList.add('content');
+        contentElement.classList.add('message', sender);
     
-        // 줄바꿈을 <br>로 변환f
+        // 줄바꿈을 <br>로 변환
         let formattedMessage = message.replace(/\n/g, '<br>');
     
         // 코드 블록이 있다면 처리
@@ -181,44 +211,61 @@ document.addEventListener('DOMContentLoaded', function () {
                 formattedMessage = formattedMessage.replace(match, codeBlock);
             });
         }
-    
-        
+
         contentElement.innerHTML = formattedMessage;
     
-        let imageElement = document.createElement('img');
-        imageElement.classList.add('avatar');
-        imageElement.src = imageSrc;
-        messageElement.appendChild(imageElement);
-        messageElement.appendChild(contentElement);
 
 
-    // 추가한 부분 (if 봇일때 추가 / 유저이면 안나오게)
-    if (sender === 'bot') {
-        const likebutton = document.createElement('button');
-        likebutton.classList.add('likebutton', sender);
-        likebutton.textContent = '👍';
-        messageElement.appendChild(likebutton);
+        if (sender === 'bot') {
 
-        const dislikebutton = document.createElement('button');
-        dislikebutton.classList.add('dislikebutton', sender);
-        dislikebutton.textContent = '👎';
-        messageElement.appendChild(dislikebutton);
-    }
+            // 이미지, 인자로 받은 이미지 생성
+            let imageElement = document.createElement('img');
+            imageElement.classList.add('avatar_bot');
+            imageElement.src = imageSrc;
 
-        chatHistory.appendChild(messageElement);
+            // 좋아요 싫어요 부분 (if 봇일때 추가 / 유저이면 안나오게)
 
-        function getCSRFToken() {
-            const metaTag = document.querySelector('meta[name="csrf-token"]');
-            if (metaTag) {
-                return metaTag.getAttribute('content');
-            } else {
-                console.error('CSRF token meta tag not found');
-                return null;
-            }
+            // 버튼들을 담을 새로운 컨테이너 생성
+            const buttonsContainer = document.createElement('div');
+            buttonsContainer.classList.add('buttonsContainer');
+
+            const likebutton = document.createElement('button');
+            likebutton.classList.add('likebutton', sender);
+            likebutton.textContent = '👍';
+        
+            const dislikebutton = document.createElement('button');
+            dislikebutton.classList.add('dislikebutton', sender);
+            dislikebutton.textContent = '👎';
+        
+            // 버튼들을 buttonsContainer에 추가
+            buttonsContainer.appendChild(likebutton);
+            buttonsContainer.appendChild(dislikebutton);
+            
+            // buttonsContainer를 contentElement 다음에 추가
+            contentElement.appendChild(buttonsContainer);
+            messageContainer.appendChild(imageElement);
+            messageContainer.appendChild(contentElement);
+
         }
-        function getCSRFToken() {
-            return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
+        else if (sender === 'user') {
+
+            // 이미지, 인자로 받은 이미지 생성
+            let imageElement = document.createElement('img');
+            imageElement.classList.add('avatar_user');
+            imageElement.src = imageSrc;
+
+            messageContainer.appendChild(contentElement);
+            // messageContainer.appendChild(messageElement);
+            messageContainer.appendChild(imageElement);
+
         }
+
+        // 메세지 chathistory에 올림
+        chatHistory.appendChild(messageContainer);
+        
+        // 스크롤 아래로
+        chatHistory.scrollTop = chatHistory.scrollHeight;
 
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('likebutton') || event.target.classList.contains('dislikebutton')) {
@@ -226,7 +273,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     event.target.dataset.clicked = true;
                     const messageContent = event.target.parentNode.querySelector('.content').textContent; // 메시지 내용 가져오기
                     const reaction = event.target.textContent.includes('좋아요') ? 'like' : 'dislike';
-                    // const csrfToken = getCSRFToken();
                     
                     fetch('/save_message/', {
                         method: 'POST',
@@ -283,65 +329,50 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-
-
-
-
-    
-        // 생성된 메시지 요소를 채팅 히스토리에 추가
-        chatHistory.appendChild(messageElement);
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-    
-        // 코드 강조 라이브러리 적용
-        // if (codeMatches) {
-        //     const codeElements = messageElement.querySelectorAll('code');
-        //     codeElements.forEach(code => {
-        //         if (typeof hljs !== 'undefined') {
-        //             hljs.highlightElement(code);
-        //         }
-        //     });
-        // }
     }
 
 
     const messageInput = document.querySelector('.message-input');
     const sendButton = document.querySelector('.send-button');
 
-   // 메세지 전송(user->bot), sendbutton 클릭시 process_question 발동
-   sendButton.addEventListener('click', () => {
-    const message = messageInput.value.trim();
-    if (message === '') return;
-    loadingScreen.style.display = 'flex'; // 추가 - 보이도록
-    // 세션 스토리지에 저장된 유저정보(id), 난이도(level), 대화id(conv_id) 가져옴
-    const userId = sessionStorage.getItem('userId');
-    const level = sessionStorage.getItem('level');
-    const conv_id = sessionStorage.getItem('conv_id');
-    const question_id = sessionStorage.getItem('question_id')
+    // 메세지 전송(user->bot), sendbutton 클릭시 process_question 발동
+    sendButton.addEventListener('click', () => {
+        const message = messageInput.value.trim();
+        if (message === '') return;
+        loadingScreen.style.display = 'flex'; // loading 보이도록
 
-    // user가 보낸 메세지 출력
-    appendMessage(message, 'user','/static/images/user.png');
-    messageInput.value = '';
-    fetch('/api/question/process/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
-        },
-        body: JSON.stringify({ question: message , conv_id: conv_id, userId: userId, level: level, question_id: question_id}),
+        // 세션 스토리지에 저장된 유저정보(id), 난이도(level), 대화id(conv_id) 가져옴
+        const userId = sessionStorage.getItem('userId');
+        const level = sessionStorage.getItem('level');
+        const conv_id = sessionStorage.getItem('conv_id');
+        const question_id = sessionStorage.getItem('question_id')
+
+        // user가 보낸 메세지 출력
+        appendMessage(message, 'user','/static/images/user.png');
+        messageInput.value = '';
+        fetch('/api/question/process/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({ question: message , conv_id: conv_id, userId: userId, level: level, question_id: question_id}),
+        })
+        .then(response => response.json())
+        .then(data => { // ai 답받아서 appendMessage(bot)로 출력
+            if(data.status == 'success'){
+
+                // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
+                const ai_response = data.ai_response;
+                appendMessage(ai_response, 'bot','/static/images/profile.png');
+
+                loadingScreen.style.display = 'none'; // loading 사라지도록
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     })
-    .then(response => response.json())
-    .then(data => { // ai 답받아서 appendMessage(bot)로 출력
-        if(data.status == 'success'){
-            // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
-            const ai_response = data.ai_response;
-            appendMessage(ai_response, 'bot','/static/images/profile.png');
-            loadingScreen.style.display = 'none'; // 추가 - 사라지도록
-        }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-})
 
     // 메시지 입력 필드에서 엔터 키를 눌렀을 때 이벤트 리스너 추가
     messageInput.addEventListener('keypress', function(event) {
@@ -395,6 +426,7 @@ document.addEventListener('DOMContentLoaded', function () {
         Plotly.Plots.resize(document.getElementById('plotly-graph'));
     };
 
+
     // 메모장 실행
     document.getElementById('addMemoBtn').addEventListener('click', function() {
         var newWindow = window.open('', '_blank', 'width=600,height=400');
@@ -404,50 +436,4 @@ document.addEventListener('DOMContentLoaded', function () {
         newWindow.focus();
     });
 });
-
-
-
-
-
-
-    document.querySelectorAll('.like-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        // 좋아요 버튼 클릭 이벤트 처리
-        const messageId = this.closest('.message').getAttribute('data-message-id');
-        sendReaction(messageId, 'like');
-    });
-});
-
-document.querySelectorAll('.dislike-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        // 싫어요 버튼 클릭 이벤트 처리
-        const messageId = this.closest('.message').getAttribute('data-message-id');
-        sendReaction(messageId, 'dislike');
-    });
-});
-
-function sendReaction(messageId, reaction) {
-    // AJAX 요청 보내기
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/save_message/', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            // 요청 완료 후 처리
-            if (xhr.status === 200) {
-                // 성공적으로 처리된 경우
-                console.log('Reaction sent successfully');
-            } else {
-                // 요청 실패한 경우
-                console.error('Failed to send reaction');
-            }
-        }
-    };
-    const data = JSON.stringify({ messageId, reaction });
-    xhr.send(data);
-}
-
-
-
-
 

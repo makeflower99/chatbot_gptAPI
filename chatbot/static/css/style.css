@@ -139,6 +139,8 @@ body, html {
     font-family: 'BMJUA';
     font-size: 23px;
     transition : .3s;
+    position : absolute;
+    transform: translateX(40%);
   
 }
 
@@ -190,7 +192,6 @@ body, html {
 
 
 
-
 /* 난이도 선택 후 질문 생성 컨테이너 */
 .questions-container {
     display: none;
@@ -208,12 +209,31 @@ body, html {
     margin: 5px 0; /* 질문들 사이의 간격 */
     border: 1px solid transparent; /* 기본 테두리 설정 (투명) */
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    display: flex; /* Flexbox 레이아웃 사용 */
+    /*justify-content: space-between; /* 항목 사이에 공간을 두어 배열 */
+    align-items: center; /* 세로 중앙 정렬 */
+
 }
 
 .question-text-container:hover {
     background-color:  #f5f1c0cc; /* hover 시 배경색 변경 */
     border-color: #ddd; /* hover 시 테두리색 변경 */
 }
+
+.topic-text {
+    width: 150px; /* 고정 폭 설정 */
+    display: inline-block; /* 인라인 블록 요소로 설정 */
+    margin-right: 10px; /* 오른쪽 여백 추가 */
+}
+
+.question-text {
+    /* width: 400px; question-text의 고정 너비 설정 */
+    display: inline-block;
+    flex: 1;
+}
+
+
+
 
 
 /* 잔디 기능 */
@@ -259,26 +279,61 @@ body, html {
 
 .chat-history {
     flex: 1; 
-    /* position:absolute; 이 부분 수정 현지*/
+    /* position:absolute;  */
     overflow-y: auto;
     padding-bottom: 20px;
     height: calc(100% - 80px); /* user-input의 높이를 고려 */
 }
 
+
+.message-container {
+    display: flex;
+    align-items: flex-end; /* 아바타와 메시지를 바닥에 맞춰 정렬 */
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 80%;
+}
+
+.message-container.bot {
+    justify-content: flex-start; /* 'bot' 메시지를 왼쪽으로 정렬 */
+    float: left; /* 박스를 좌측으로 정렬 */
+    clear: both; /* 레이아웃을 초기화하여 다음 요소 아래에 표시 */
+    margin-right: 10px; /* 오른쪽으로 10px 간격 */
+}
+
+.message-container.user {
+    justify-content: flex-end; /*'user' 메시지를 오른쪽으로 정렬*/
+    float: right; /* 박스를 우측으로 정렬*/
+    clear: both; /*레이아웃을 초기화하여 다음 요소 아래에 표시*/
+
+}
+
+.avatar_bot{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px; /* 오른쪽으로 10px 간격 */
+}
+.avatar_user {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px; /* 왼쪽으로 10px 간격 */
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: left;
+    /*margin-top: 10px; /* 메시지와 버튼 사이의 간격 */
+}
+
+/* 메시지 스타일 */
 .message {
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
 }
-
-/* .message.user {
-    background-color: #f5f6f7;
-}
-
-.message.bot {
-    background-color: rgba(0, 135, 68, .8);
-    color: #fff;
-} */
 
 .message.user {
     background-color: hsl(240, 79%, 93%);
@@ -286,8 +341,7 @@ body, html {
     font-size: 20px;
     display: inline-block; /* 인라인 블록으로 설정 */
     max-width: 80%; /* 최대 너비 지정 */
-    float: right; /* 박스를 우측으로 정렬 */
-    clear: both; /* 레이아웃을 초기화하여 다음 요소 아래에 표시 */
+
 }
 .message.bot {
     background-color: #e1e1e1;
@@ -296,16 +350,9 @@ body, html {
     color: #1d1b1b;
     display: inline-block; /* 인라인 블록으로 설정 */
     max-width: 80%; /* 최대 너비 지정 */
-    float: left; /* 박스를 좌측으로 정렬 */
-    clear: both; /* 레이아웃을 초기화하여 다음 요소 아래에 표시 */
+
 }
 
-
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
 
 .likebutton {
     text-align: center;
@@ -339,6 +386,7 @@ body, html {
     background-color:  #808080cc; /* hover 시 배경색 변경 */
     border-color: #757575; /* hover 시 테두리색 변경 */
 }
+
 
 /* 채팅입력창 아래 고정 */
 .user-input {

@@ -65,7 +65,6 @@ def main_page(request):
 
     # 히트맵 데이터를 배열로 변환
     heatmap_array = []
-    current_level = None
     level_groups = {}  # 난이도별 문제 그룹화를 위한 딕셔너리
 
     # 난이도(level)별로 그룹화하고, 각 그룹 내에서는 문제 id 기준 오름차순 정렬
@@ -107,8 +106,8 @@ def get_questions_by_level(request):
         data = json.loads(request.body)
         level = data['level']
 
-        questions = Question.objects.filter(level=level)
-        questions_data = list(questions.values('content'))  # 모델 인스턴스를 딕셔너리 리스트로 변환
+        questions = Question.objects.filter(level=level).values('topic', 'content')
+        questions_data = list(questions)  # QuerySet을 리스트로 변환
         return JsonResponse({'questions': questions_data})
     
 

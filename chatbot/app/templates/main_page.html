@@ -7,25 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>코딩을 풀어주는 챗봇 CopleChat</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js/styles/default.min.css">
     <script src='https://cdn.plot.ly/plotly-2.31.1.min.js'></script> 
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/common.js"></script>
 </head>
 <body>
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
     <div class="top-bar">
-        <p id="top"><b>🤖 코딩 풀어주는 AI <span id="special-word">코풀챗</span> 🤖</b></p>
-        <script>
-            // 특정 단어에만 스타일을 적용하는 JavaScript 코드
-            document.addEventListener('DOMContentLoaded', function() {
-                var specialWord = document.getElementById('special-word');
-                if (specialWord) {
-                    specialWord.style.color = 'white'; // 원하는 색상으로 변경
-                }
-                hljs.highlightAll(); // Highlight.js 활성화
-            });
-        </script>
+        <p id="top"><b>코딩 풀어주는 AI <span id="special-word">코풀챗</span></b></p>
+        <!-- <p id="top"><b>🤖 코딩 풀어주는 AI <span id="special-word">코풀챗</span> 🤖</b></p> -->
         <!-- 현재 로그인한 유저 정보 -->
         <p>User: {{ user.username }}</p>
         <!-- 로그아웃 버튼 -->
@@ -50,7 +39,7 @@
             
             <div class="questions-container">
                 <div class="question-text-container">
-                    <!-- 질문 생성되어서 들어감 -->
+                    <!-- 토픽, 질문 생성되어서 들어감 -->
                 </div>
             </div>
             <!-- 랜덤 문제 보기 버튼 -->
@@ -68,7 +57,7 @@
 
             <!-- 잔디 기능 -->
             <div class="plotly-graph-container">
-                <p> 🌱 {{user.username}} 님의 잔디를 심어봐요! 🌱</p>
+                <p>-|--|--|--|--|-- 🌱 {{user.username}} 님의 잔디를 심어봐요! 🌱 --|--|--|--|--|-</p>
                 <!-- plotly 그래프를 출력할 영역 -->
                 <div id="plotly-graph" style="height:100px">
                 </div>
