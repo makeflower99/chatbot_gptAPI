@@ -6,7 +6,11 @@ from .models import User
 # Create your views here.
 
 
-def login_view(request) :
+def login_view(request) :  
+    if request.user.is_authenticated: # 유저 로그인상태면 main으로 가도록
+        return redirect('/main')
+
+
     if request.method == "POST" :
         username = request.POST["username"]
         password = request.POST["password"]
