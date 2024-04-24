@@ -1,3 +1,27 @@
+// 모달 창 선택
+const modal = document.getElementById("modal");
+const closeButton = document.querySelector(".close-button");
+
+// 페이지 로드 시 모달 열기
+document.addEventListener("DOMContentLoaded", () => {
+    modal.style.display = "flex"; // 모달 창을 표시
+});
+
+// 모달 닫기
+closeButton.addEventListener("click", () => {
+    modal.style.display = "none"; // 모달 창을 숨김
+});
+
+// 모달 외부 클릭 시 닫기
+window.addEventListener("click", (event) => {
+    if (event.target === modal) { // 모달 바깥 클릭 시 감지
+        modal.style.display = "none"; // 모달 창을 숨김
+    }
+});
+
+
+
+
 
 // 동적으로 발생하는 함수들
 document.addEventListener('DOMContentLoaded', function () {
@@ -53,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
    questionButtons.addEventListener('click', (event) => {
        // const questionItem = event.target.closest('.questions-container');
        const questionItem = event.target.closest('.question-text-container');
-       
+       loadingScreen.style.display = 'flex'; // 추가 - 보이도록
        if (questionItem) {
            const questionContent = event.target.textContent;
 
@@ -81,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                    // conversation_id 세션 스토리지에 저장
                    sessionStorage.setItem('conv_id', data.conversation_id)
+                   loadingScreen.style.display = 'none'; // 추가 - 사라지도록
                }
 
            })
@@ -286,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
    sendButton.addEventListener('click', () => {
     const message = messageInput.value.trim();
     if (message === '') return;
-
+    loadingScreen.style.display = 'flex'; // 추가 - 보이도록
     // 세션 스토리지에 저장된 유저정보(id), 난이도(level), 대화id(conv_id) 가져옴
     const userId = sessionStorage.getItem('userId');
     const level = sessionStorage.getItem('level');
@@ -294,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const question_id = sessionStorage.getItem('question_id')
 
     // user가 보낸 메세지 출력
-    appendMessage(message, 'user');
+    appendMessage(message, 'user','/static/images/user.png');
     messageInput.value = '';
     fetch('/api/question/process/', {
         method: 'POST',
@@ -309,7 +334,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if(data.status == 'success'){
             // 위에서 post로 보내주고 받은 openai의 답을 여기서 appenMessage(bot)
             const ai_response = data.ai_response;
-            appendMessage(ai_response, 'bot');
+            appendMessage(ai_response, 'bot','/static/images/profile.png');
+            loadingScreen.style.display = 'none'; // 추가 - 사라지도록
         }
     })
     .catch((error) => {

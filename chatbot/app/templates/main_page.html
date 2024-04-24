@@ -55,7 +55,15 @@
             </div>
             <!-- 랜덤 문제 보기 버튼 -->
             <button class="random-question-btn">랜덤 문제 생성 🔀</button>
-            
+            <div id="modal" class="modal"> <!-- 모달 창 -->
+                <div class="modal-content">
+                    <span class="close-button">&times;</span> <!-- 닫기 버튼 -->
+                    <p>논리 학습 코딩 도우미 코풀챗입니다.</p>
+                    <p>먼저 논리를 학습하세요.</p>
+                    <p>코드블록 배열을 해보세요</p>
+                    <p>모두 하셨다면 당신은 고수!</p>
+                </div>
+            </div>
 
 
             <!-- 잔디 기능 -->
@@ -74,9 +82,7 @@
                 <!-- 대화 히스토리가 여기에 표시 -->
             </div>
             <!-- 추가 -->
-            <div class="loading" id="loading">
-                LOADING...
-            </div>
+
             <div class="user-input">
                 <div class="text-book">
                     <button id="addMemoBtn" class="image-button">
@@ -88,6 +94,13 @@
                 </div>
                 <input type="text" class="message-input" placeholder="메시지를 입력하세요...">
                 <button class="send-button">전송</button>
+            </div>
+        </div>
+        <div class="loading" id="loading">
+            <div class="loading-box">
+                <img src="{% static 'images/01.gif' %}" alt="GIF">
+                <!-- 로딩 중... -->
+                <span id="loading-text" style="font-size: 50px; font-weight: bold;">LOADING...</span>
             </div>
         </div>
 
