@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>코딩을 풀어주는 챗봇 CopleChat</title>
+    <title>코딩을 풀어주는 챗봇 CoFullChat</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src='https://cdn.plot.ly/plotly-2.31.1.min.js'></script> 
 </head>
@@ -13,8 +13,9 @@
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
     <div class="top-bar">
-        <p id="top"><b>코딩 풀어주는 AI <span id="special-word">코풀챗</span></b></p>
-        <!-- <p id="top"><b>🤖 코딩 풀어주는 AI <span id="special-word">코풀챗</span> 🤖</b></p> -->
+        <p id="top">
+            <img id="ai-logo" src="{% static 'images/cat_remove.png' %}" alt="AI 로고">
+            <b> 코딩 풀어주는 AI <span id="special-word">코풀챗</span></b></p>
         <!-- 현재 로그인한 유저 정보 -->
         <p>User: {{ user.username }}</p>
         <!-- 로그아웃 버튼 -->
@@ -43,7 +44,7 @@
                 </div>
             </div>
             <!-- 랜덤 문제 보기 버튼 -->
-            <button class="random-question-btn">랜덤 문제 생성 🔀</button>
+            <button class="random-question-btn">랜덤 문제 풀기</button>
             <div id="modal" class="modal"> <!-- 모달 창 -->
                 <div class="modal-content">
                     <span class="close-button">&times;</span> <!-- 닫기 버튼 -->
@@ -57,10 +58,9 @@
 
             <!-- 잔디 기능 -->
             <div class="plotly-graph-container">
-                <p>-|--|--|--|--|-- 🌱 {{user.username}} 님의 잔디를 심어봐요! 🌱 --|--|--|--|--|-</p>
+                <p>🫐 {{user.username}} 님의 블루베리를 키워봐요! 🫐</p>
                 <!-- plotly 그래프를 출력할 영역 -->
-                <div id="plotly-graph" style="height:100px">
-                </div>
+                <div id="plotly-graph" class="plotly-graph" style="height:100px"></div>
             </div>
 
         </div>
@@ -75,16 +75,16 @@
             <div class="user-input">
                 <div class="text-book">
                     <button id="addMemoBtn" class="image-button">
-                        <img src="{% static 'images/notepad.svg' %}" alt="메모장" /> 
+                        <img src="{% static 'images/memo.png' %}" alt="메모장" /> 
                     </button>
                     <div class="text">
-                        <p>메모장</p>
                     </div>
                 </div>
                 <input type="text" class="message-input" placeholder="메시지를 입력하세요...">
                 <button class="send-button">전송</button>
             </div>
         </div>
+
         <div class="loading" id="loading">
             <div class="loading-box">
                 <img src="{% static 'images/01.gif' %}" alt="GIF">
@@ -93,6 +93,7 @@
             </div>
         </div>
 
+        <button class="arrow-button show-sidebar">←</button>
     </div>
     <script>
         // Django 템플릿에서 JavaScript 변수로 변환
