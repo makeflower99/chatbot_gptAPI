@@ -3,12 +3,19 @@
     src: url("../baemin/BMJUA_ttf.ttf");
 }
 
+@font-face {
+    font-family: 'gmarket';
+    src: url("../gmarket/GmarketSansTTFBold.ttf");
+}
+
+
 
 body, html {
     height: 100%;
-    margin: 0;
+    margin: 0 10px; /* 상하 마진 0, 좌우 마진 20px */
     font-family: sans-serif;
-    background-image: linear-gradient(to top, #f0e6ff 0%, #9874f9 100%);
+    /* background-image: linear-gradient(to top, #D5C2EE 0%, #6E6ED7 100%); */
+    background-image: linear-gradient(to top, #f0e6ff 0%, #6E6ED7);
 }
 
 
@@ -18,22 +25,22 @@ body, html {
     display: flex;
     justify-content: space-between; /* 요소들을 좌우에 정렬 */
     align-items: center; /* 요소들을 수직 가운데 정렬 */
-    height: 50px; /* 최소 높이 설정 */
+    height: 80px; /* 최소 높이 설정 */
     width: 100%;
     background-color: #f0f0f0;
     padding: 10px 0;
     margin-left: auto; /* 왼쪽 여백 최대화 */
-    background-image: linear-gradient(to top, #9874f9 90%, #9b81e3 120%);
+    background-image: linear-gradient(to top, #6E6ED7 90%, #6E6ED7 120%);
 }
 
 /* 로고 */
 .top-bar p#top{
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     margin: 0;
     /* margin-right: auto; 왼쪽 여백 최대화 */
     margin-left: 10px; /* 오른쪽 여백 설정 */
-    font-size: 40px;
-    color: rgb(95, 80, 193);
+    font-size: 30px;
+    color: rgb(57, 48, 117);
     /* background-image: linear-gradient(to top, #9874f9 90%, #9b81e3 120%); */
     /* align-self: center; 요소를 수직 가운데 정렬 */
     background-position: calc(100% - 600px) top, right top; /* 첫 번째 값이 이미지, 두 번째 값이 선형 그라데이션 */
@@ -41,12 +48,22 @@ body, html {
     background-repeat: no-repeat, no-repeat; /* 각 배경 이미지에 대한 반복 설정 */
 }
 
+#ai-logo {
+    width: 50px; /* 이미지 너비 조정 */
+    height: auto; /* 이미지 높이 자동 조정 */
+    margin-left: 10px; /* 이미지 오른쪽 여백 조정 */
+}
+
+
+#special-word {
+    font-size: 50px; /* 작은 글꼴 크기 조정 */
+}
 
 /* 유저정보 */
 .top-bar p{
     margin-left: auto; /* 오른쪽 여백 최대화 */
     font-size: 20px;
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     text-align: right;
     color: #f5efef; 
 }
@@ -57,12 +74,12 @@ body, html {
     margin-right: 20px; /* 오른쪽 여백 추가 */
     padding: 10px 20px; /* 버튼 내부 여백 */
     text-align: center; /* 텍스트 가운데 정렬 */
-    font-family: 'BMJUA'; /* 글꼴 지정 */
+    font-family: 'gmarket'; /* 글꼴 지정 */
     font-size: 20px; /* 글꼴 크기 */
     text-decoration: none; /* 링크 밑줄 제거 */
     color: #f5efef; /* 글자 색상 */
-    background-color: #007bff; /* 배경색 */
-    border: 1px solid #007bff; /* 테두리 스타일 */
+    background-color: 	#4646CD; /* 배경색 */
+    border: 1px solid 	#4646CD; /* 테두리 스타일 */
     border-radius: 5px; /* 테두리 둥글게 */
     font-weight: bold; /* 글자 굵기 */
     cursor: pointer; /* 마우스 커서 스타일 변경 */
@@ -77,10 +94,15 @@ body, html {
 
 .container {
     display: flex;
-    height: calc(100% - 50px); /* .top-bar 높이를 제외한 나머지 높이 */
+    height: calc(100% - 80px); /* .top-bar 높이를 제외한 나머지 높이 */
     flex-direction: row; /* 가로 방향으로 배치 */
     overflow: hidden; /* 내부에서 스크롤이 필요한 경우를 제외하고는 오버플로우 숨김 */
+    position: relative;
+    justify-content: center; /* 자식 요소들을 가로축 중앙에 정렬 */
+    align-items: stretch; /* 자식 요소들을 세로축으로 꽉 채움 */
+    /*transition: transform 0.5s; /* 부드러운 전환 효과 */
 }
+
 
 /* 왼쪽 패널 - 문제, 잔디 */
 .sidebar {
@@ -91,22 +113,71 @@ body, html {
     background-color: #f0f0f0; /* 회색 배경색 */
     overflow-y: auto;
     box-sizing: border-box;
-    background-image: linear-gradient(to top, #f0e6ff 0%, #9874f9 100%);
+    background-image: linear-gradient(to top, #f0e6ff 0%, #6E6ED7);
+    /* background-image: linear-gradient(to top, #D5C2EE 0%, #6E6ED7 100%); */
     position: relative; /* 자식 요소인 plotly-graph-container의 위치 기준점 설정 */
-    height: 100%; 
+    height: 100%;
+   /* transition: all 0.5s; /* 사이드바가 사라지거나 나타날 때의 애니메이션 */
 }
+
+
+
+
+.container:not(.sidebar-hidden) .arrow-button {
+    position: absolute;
+    left: 39%; 
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; /* 버튼의 너비를 명시적으로 설정 */
+    height: 20px; /* 필요한 경우, 버튼의 높이도 설정 */
+    display: flex; /* flexbox를 사용한 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    z-index: 1;
+}
+
+/* 사이드바가 보일 때의 화살표 버튼 스타일 */
+.arrow-button.show-sidebar {
+right: 0; /* 사이드바의 오른쪽 끝에 위치 */
+}
+
+/* 사이드바가 사라졌을 때의 화살표 버튼 스타일 */
+.arrow-button.hide-sidebar {
+left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
+}
+
+/* 사이드바 숨겨진 상태 */
+.sidebar-hidden .sidebar {
+    transform: translateX(-100%); /* 왼쪽으로 숨김 */
+}
+
+/* 버튼 위치 변경 */
+.container.sidebar-hidden .arrow-button {
+    position: absolute;
+    left: 0; /* Positioned at the left end of the container */
+    top: 50%;
+    transform: translateY(-50%);
+    /*transition: left 0.3s ease;*/
+}
+
+/* 사이드바가 숨겨진 상태일 때 chat-container 스타일 */
+.sidebar-hidden .chat-container {
+    transform: translateX(-33%); /* chat-container를 이동 */
+}
+
+
 
 .level-container {
     display: flex; 
     align-items: center;
-    flex-direction: row; /*요소를 가로로 배치/*
+    flex-direction: row; /*요소를 가로로 배치*/
     margin-right: 10px; /* 버튼 사이의 간격 조절 */
     margin-bottom: 20px; /* 버튼 사이의 간격 조절 */
 }
 
 .level-btn {
     position: relative;
-    background: #5a4865;
+    background: #8C8CBE;
     margin : 5px auto;
     margin-left: 5px;
     width : 200px;
@@ -129,7 +200,7 @@ body, html {
     left: -200px;
     width: 100%;
     height: 100%;
-    background: #322664;
+    background: #3C3C8C;
     transition: .3s;
     z-index: 1;
 }
@@ -146,7 +217,7 @@ body, html {
 
 .btnText2 {
     margin-top : 12px;
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     font-size: 23px;
     font-weight: bold;
     text-align: center;
@@ -171,11 +242,11 @@ body, html {
 
 .random-question-btn {
     display: none; /* 추가 */
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     margin-left: 20px;
     width: 200px;
     height: 50px;
-    background-color: #ca7bf5 ; /* 배경색 설정 */
+    background-color: #8878CD ; /* 배경색 설정 */
     color: white; /* 글자색은 흰색으로 */
     padding: 0 5px; /* 상하 10px, 좌우 20px 패딩 */
     border: none; /* 테두리 없애기 */
@@ -194,17 +265,20 @@ body, html {
 
 /* 난이도 선택 후 질문 생성 컨테이너 */
 .questions-container {
+    font-family: 'gmarket';
     display: none;
     /* width: 400px; 가로 길이 */
     max-height: 400px; /* 최대 높이 설정 */
     overflow-y: auto; /* 세로 스크롤바가 필요할 때만 표시 */
     /* border: 3px solid black; 컨테이너 테두리 */
     transition: background-color 1s ease; /* 부드러운 색상 변화 */
-    background-color: #e9f1f9; /* 마우스를 올렸을 때의 배경색 */
+    background-color: #D2D2FF; /* 마우스를 올렸을 때의 배경색 */
     margin: 20px 20px; /* 상하 마진, 좌우 마진은 자동으로 중앙 정렬 */
 }
 
 .question-text-container {
+    font-family: 'gmarket';
+    /* font-size: 19px; */
     padding: 10px; /* 내용과의 간격 */
     margin: 5px 0; /* 질문들 사이의 간격 */
     border: 1px solid transparent; /* 기본 테두리 설정 (투명) */
@@ -212,18 +286,37 @@ body, html {
     display: flex; /* Flexbox 레이아웃 사용 */
     /*justify-content: space-between; /* 항목 사이에 공간을 두어 배열 */
     align-items: center; /* 세로 중앙 정렬 */
-
 }
 
+
+/* 주제를 왼쪽에 고정시키는 스타일 */
+.topic-container {
+    position: sticky; /* 스크롤 시 고정되도록 설정 */
+    top: 50px; /* .top-bar의 높이만큼 여백 설정 */
+    width: 200px; /* 고정된 주제의 너비 설정 */
+    padding: 10px; /* 고정된 주제의 패딩 설정 */
+    background-color: #D2D2FF; /* 고정된 주제의 배경색 설정 */
+    z-index: 1; /* 다른 요소 위에 표시되도록 설정 */
+}
+    
+
+/* 문제 목록 스타일 */
+.question-text-container {
+    margin-left: 220px; /* 주제와의 간격을 주기 위해 왼쪽 마진 설정 */
+}
+
+
 .question-text-container:hover {
-    background-color:  #f5f1c0cc; /* hover 시 배경색 변경 */
+    background-color:  #b8b8de; /* hover 시 배경색 변경 */
     border-color: #ddd; /* hover 시 테두리색 변경 */
 }
 
 .topic-text {
+    font-family: 'gmarket';
     width: 150px; /* 고정 폭 설정 */
     display: inline-block; /* 인라인 블록 요소로 설정 */
     margin-right: 10px; /* 오른쪽 여백 추가 */
+    background-color: #D2D2FF; /* 고정된 주제의 배경색 설정 */
 }
 
 .question-text {
@@ -235,45 +328,46 @@ body, html {
 
 
 
-
 /* 잔디 기능 */
 .plotly-graph-container {
-    font-family: 'BMJUA';
-    font-size: 20px;
+    font-family: 'gmarket';
+    font-size: 25px;
     display: flex;
+    color: 	#646496;
     flex-direction: column;
     height: 200px !important;
     align-items: center;
     position: absolute; /* sidebar 내에서 위치 고정 */
-    bottom: 0px; /*하단에 고정 바닥으로부터 20px 위로*/
+    bottom: 10px; /*하단에 고정 바닥으로부터 20px 위로*/
     width: 100%; /* sidebar 너비에 맞춤 */
 }
 
-#plotly-graph {
+.plotly-graph {
     width: 80%; /*그래프의 폭을 부모 요소 대비 80%로 설정*/
     margin: 0 auto; /* 상하 마진, 좌우 마진은 자동으로 중앙 정렬 */
 }
-
 
 .sidebar * {
     max-width: 100%; /* 최대 너비를 사이드바의 100%로 설정 */
     word-break: break-word; /* 긴 단어가 있을 경우 줄바꿈 */
 }
 
-
+ 
 
 
 /* 오른쪽 패널 - 채팅부분 */
 .chat-container {
     display: flex;
     flex-direction: column;
-    flex: 0 0 60%;
+    /* flex: 0 0 60%; */
     max-width: 60%; /* 최대 너비를 60%로 제한 */
     background-image: linear-gradient(to top, #fcfcfc 0%, #ffffff 100%);
     border-radius: 15px;
     padding: 20px;
     height: 100%;
     position: relative; /*부모 컨테이너에 대해 상대적 위치 설정*/
+    flex-grow: 1;
+    /*transition: all 0.5s; /* 챗 컨테이너가 중앙으로 이동할 때의 애니메이션 */
 }
 
 
@@ -310,14 +404,14 @@ body, html {
 }
 
 .avatar_bot{
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin-right: 10px; /* 오른쪽으로 10px 간격 */
 }
 .avatar_user {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin-left: 10px; /* 왼쪽으로 10px 간격 */
 }
@@ -328,6 +422,7 @@ body, html {
     /*margin-top: 10px; /* 메시지와 버튼 사이의 간격 */
 }
 
+
 /* 메시지 스타일 */
 .message {
     margin-bottom: 10px;
@@ -337,7 +432,7 @@ body, html {
 
 .message.user {
     background-color: hsl(240, 79%, 93%);
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     font-size: 20px;
     display: inline-block; /* 인라인 블록으로 설정 */
     max-width: 80%; /* 최대 너비 지정 */
@@ -345,7 +440,7 @@ body, html {
 }
 .message.bot {
     background-color: #e1e1e1;
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     font-size: 20px;
     color: #1d1b1b;
     display: inline-block; /* 인라인 블록으로 설정 */
@@ -357,24 +452,24 @@ body, html {
 .likebutton {
     text-align: center;
     background: none;   
-    width: 60px; 
-    height: 40px;     
-    font-size: 25px;          
+    width: 30px; 
+    height: 30px;     
+    font-size: 15px;          
     border-radius: 10%;        
     border: none;             
     cursor: pointer;    
-    margin-left: 15px;      
+    /* margin-left: 15px;       */
 }
 .dislikebutton{
     text-align: center;
     background: none;     
-    width: 60px; 
-    height: 40px;          
-    font-size: 25px;          
+    width: 30px; 
+    height: 30px;          
+    font-size: 15px;          
     border-radius: 10%;        
     border: none;             
     cursor: pointer; 
-    margin-left: 15px;    
+    /* margin-left: 15px;     */
 }
 
 .likebutton:hover{
@@ -405,23 +500,30 @@ body, html {
 }
 
 .text-book {
-    margin-top: 40px;
+    margin-bottom: 20px;
     flex-direction: column;
     font-size: 20px;
     margin-left: -15px;
 }
 
 
+.image-button {
+    background-color: #ffffff;
+    border: 1px solid #b4a5a5;
+    border-radius: 10px;
+}
+
 .image-button img {
     width: 30px; /* 이미지의 가로 크기 */
     height: 40px; /* 이미지의 세로 크기 */
     object-fit: contain; /* 이미지를 컨테이너에 맞게 조정 */
+    background-color: #ffffff;
 }
 
 .text{
     color: #000000;
     margin-top: 0px;
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     font-size: 20px;
     margin-top: -15px; 
 }
@@ -457,21 +559,20 @@ body, html {
 
 .send-button {
     border: none;
-    background: linear-gradient(to right, #a681fc, #f098c8); /* 옅은 오렌지색 배경 */
+    background: linear-gradient(to right, #a681fc,#D5C2EE); 
     color: white;
     padding: 12px 24px;
     border-radius: 25px;
     cursor: pointer;
     transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 10px rgba(238, 142, 227, 0.5); /* 약간의 그림자 효과 */
+    box-shadow: 0 4px 10px #7878E1; /* 약간의 그림자 효과 */
     font-weight: bold; /* 텍스트를 굵게 표시 */
     font-family: 'Arial', sans-serif; /* 원하는 글꼴로 변경 */
 }
 
 .send-button:hover {
-    background: linear-gradient(to right, #8e4473, #ad4891); /* 조금 더 진한 오렌지색 배경 */
-    transform: translateY(-2px); /* 약간 위로 이동 */
-    box-shadow: 0 6px 15px rgba(229, 117, 210, 0.7); /* 그림자 효과 강화 */
+    background: linear-gradient(to right,#5C518B, #84799F); 
+    box-shadow: 0 6px 10px #7878E1; /* 그림자 효과 강화 */
 }
 
 .send-button:focus {
@@ -479,7 +580,7 @@ body, html {
 }
 
 .loading {
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     font-size:  50px;
     display: none;
     position: fixed;
@@ -494,10 +595,6 @@ body, html {
 }
 
 
-/* 전체 적용 - 전체 스크롤 없애기 */
-* {
-box-sizing: border-box; 
-}
 
 
 
@@ -558,6 +655,7 @@ pre {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    z-index: 100;
 }
 
 .loading-box {
@@ -578,8 +676,14 @@ pre {
 }
 
 .loading-text {
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     font-size: 60px;
     font-weight: bold;
     text-align: center;
 }
+
+
+/* 전체 적용 - 전체 스크롤 없애기 */
+* {
+    box-sizing: border-box; 
+    }
