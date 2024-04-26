@@ -129,10 +129,7 @@ USE_TZ = False
 # 정적파일 경로 설정
 STATIC_URL = "/static/"
 # 정적 파일 찾을 경로 설정
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # Default primary key field type
