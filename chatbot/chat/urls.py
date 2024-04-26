@@ -25,9 +25,10 @@ urlpatterns = [
     path('main/', views.main_page, name='main_page'),
     path("admin/", admin.site.urls),
     path('api/level/', views.get_questions_by_level, name='get_questions_by_level'),
-    path('api/question/start/', views.start_conversation, name='start_conversation'),
+    path('api/question/start/', views.start_question, name='start_question'),
     path('api/question/process/', views.process_question, name='process_question'),
     path('', include('users.urls')),
-    path('save_message/', views.save_message, name='save_message'),
+    path('api/save_reaction/', views.save_reaction, name='save_reaction'),
     path("api/get_user_info/", views.get_user_info, name = "get_user_info"),
+    path("api/make_blueberry/", views.blueberry, name = "blueberry"),
 ]

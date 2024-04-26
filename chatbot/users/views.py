@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .models import User
+from app.views import start_conversation
 
 
 # Create your views here.
@@ -15,6 +16,13 @@ def login_view(request) :
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(username = username, password = password)
+
+        user = User.objects.get(username=username)
+        user_id = user.id
+        print("user_id",user_id)
+
+        # Conversation 생성
+        # start_conversation(user_id)
 
         if user is not None:
             print("인증성공")
@@ -38,11 +46,9 @@ def signup_view(request) :
         print(request.POST)
         username = request.POST["username"]
         password = request.POST["password"]
-        email = request.POST["Email"]
-        Fullname = request.POST["Fullname"]
+        email = request.POST["email"]
 
         user = User.objects.create_user(username, email, password)
-        user.Fullname = Fullname
         user.save()
         return redirect("user:login")  # 로그인 창으로 돌려보냄
     return render(request, "users/signup.html")

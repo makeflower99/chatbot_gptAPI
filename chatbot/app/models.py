@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from django.utils import timezone
 
 class Question(models.Model):
     level = models.CharField(max_length=50)  # 난이도
@@ -15,7 +16,7 @@ class Solved(models.Model):
 
 class Conversation(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='conversations')  # 유저 세션의 고유 ID
-    start_time = models.DateTimeField(auto_now_add=True)  # 대화 세션의 시작 시간, 자동으로 현재 시간 설정
+    start_time = models.DateTimeField(default=timezone.now)  # 대화 세션의 시작 시간, 자동으로 현재 시간 설정
 
     def __str__(self):
         return f"Conversation {self.id} with user {self.user_id}"
