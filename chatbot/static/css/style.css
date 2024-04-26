@@ -12,10 +12,11 @@
 
 body, html {
     height: 100%;
-    margin: 0 10px; /* 상하 마진 0, 좌우 마진 20px */
+    margin: 0 15px; /* 상하 마진 0, 좌우 마진 20px */
     font-family: sans-serif;
     /* background-image: linear-gradient(to top, #D5C2EE 0%, #6E6ED7 100%); */
     background-image: linear-gradient(to top, #f0e6ff 0%, #6E6ED7);
+    position:relative;
 }
 
 
@@ -27,10 +28,10 @@ body, html {
     align-items: center; /* 요소들을 수직 가운데 정렬 */
     height: 80px; /* 최소 높이 설정 */
     width: 100%;
-    background-color: #f0f0f0;
+    /* background-color: #f0f0f0; */
     padding: 10px 0;
     margin-left: auto; /* 왼쪽 여백 최대화 */
-    background-image: linear-gradient(to top, #6E6ED7 90%, #6E6ED7 120%);
+    /* background-image: linear-gradient(to top, #6E6ED7 90%, #6E6ED7 120%); */
 }
 
 /* 로고 */
@@ -51,7 +52,7 @@ body, html {
 #ai-logo {
     width: 50px; /* 이미지 너비 조정 */
     height: auto; /* 이미지 높이 자동 조정 */
-    margin-left: 10px; /* 이미지 오른쪽 여백 조정 */
+    margin-left: -10px; /* 이미지 오른쪽 여백 조정 */
 }
 
 
@@ -79,7 +80,6 @@ body, html {
     text-decoration: none; /* 링크 밑줄 제거 */
     color: #f5efef; /* 글자 색상 */
     background-color: 	#4646CD; /* 배경색 */
-    border: 1px solid 	#4646CD; /* 테두리 스타일 */
     border-radius: 5px; /* 테두리 둥글게 */
     font-weight: bold; /* 글자 굵기 */
     cursor: pointer; /* 마우스 커서 스타일 변경 */
@@ -110,11 +110,10 @@ body, html {
     max-width: 40%; /* 최대 너비를 40%로 제한 */
     flex-wrap: wrap; /* 요소가 너무 많을 때 줄바꿈하도록 설정 */
     flex-direction: row; /* 요소를 가로로 배치 */
-    background-color: #f0f0f0; /* 회색 배경색 */
+    /* background-color: #f0f0f0; 회색 배경색 */
     overflow-y: auto;
     box-sizing: border-box;
-    background-image: linear-gradient(to top, #f0e6ff 0%, #6E6ED7);
-    /* background-image: linear-gradient(to top, #D5C2EE 0%, #6E6ED7 100%); */
+    /* background-image: linear-gradient(to top, #f0e6ff 0%, #6E6ED7); */
     position: relative; /* 자식 요소인 plotly-graph-container의 위치 기준점 설정 */
     height: 100%;
    /* transition: all 0.5s; /* 사이드바가 사라지거나 나타날 때의 애니메이션 */
@@ -124,27 +123,24 @@ body, html {
 
 
 .container:not(.sidebar-hidden) .arrow-button {
-    position: absolute;
-    left: 39%; 
+    /* position: absolute; */
+    position: fixed;
+    /* left: 39%;  */
     top: 50%;
     transform: translateY(-50%);
-    width: 20px; /* 버튼의 너비를 명시적으로 설정 */
-    height: 20px; /* 필요한 경우, 버튼의 높이도 설정 */
     display: flex; /* flexbox를 사용한 정렬 */
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: center; /* 수직 가운데 정렬 */
     z-index: 1;
+    background: transparent; /* 버튼 배경을 투명하게 설정 */
+    border: none; /* 버튼 테두리 제거 */
+    cursor: pointer; /* 마우스를 올렸을 때 커서를 포인터 모양으로 변경 */
+    color: #8C8CBE; /* 버튼 텍스트 색상 설정, 예시로 빨간색 사용 */
+    font-weight: bold; /* 텍스트를 진하게 설정 */
+    font-size: 24px; /* 텍스트 크기 설정 */
+    left: 0px;
 }
 
-/* 사이드바가 보일 때의 화살표 버튼 스타일 */
-.arrow-button.show-sidebar {
-right: 0; /* 사이드바의 오른쪽 끝에 위치 */
-}
-
-/* 사이드바가 사라졌을 때의 화살표 버튼 스타일 */
-.arrow-button.hide-sidebar {
-left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
-}
 
 /* 사이드바 숨겨진 상태 */
 .sidebar-hidden .sidebar {
@@ -153,11 +149,19 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 
 /* 버튼 위치 변경 */
 .container.sidebar-hidden .arrow-button {
-    position: absolute;
-    left: 0; /* Positioned at the left end of the container */
+    position: fixed;
+    /* position: absolute; */
+    /*left: 0; */
     top: 50%;
     transform: translateY(-50%);
     /*transition: left 0.3s ease;*/
+    background: transparent; /* 버튼 배경을 투명하게 설정 */
+    border: none; /* 버튼 테두리 제거 */
+    cursor: pointer; /* 마우스를 올렸을 때 커서를 포인터 모양으로 변경 */
+    color: #8C8CBE; /* 버튼 텍스트 색상 설정, 예시로 빨간색 사용 */
+    font-weight: bold; /* 텍스트를 진하게 설정 */
+    font-size: 24px; /* 텍스트 크기 설정 */
+    left: 0px;
 }
 
 /* 사이드바가 숨겨진 상태일 때 chat-container 스타일 */
@@ -166,18 +170,16 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 }
 
 
-
 .level-container {
-    display: flex; 
+    display: flex;
     align-items: center;
     flex-direction: row; /*요소를 가로로 배치*/
     margin-right: 10px; /* 버튼 사이의 간격 조절 */
     margin-bottom: 20px; /* 버튼 사이의 간격 조절 */
 }
-
 .level-btn {
     position: relative;
-    background: #8C8CBE;
+    background: #8878CD;
     margin : 5px auto;
     margin-left: 5px;
     width : 200px;
@@ -191,8 +193,12 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
     transition : .3s;
     flex-direction: row;
     margin-right: 10px;
-    border-radius: 3px;
-    box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+    border-radius: 10px;
+    /* box-shadow: 1px 1px 2px rgba(0,0,0,.2); */
+}
+.level-btn.clicked {
+    transform: translateY(7px); /* 눌린 상태일 때 아래로 약간 이동하여 입체적인 느낌을 줌 */
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5); /* 더 입체적인 그림자 효과 추가 */
 }
 .btnTwo {
     position: absolute;
@@ -200,21 +206,19 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
     left: -200px;
     width: 100%;
     height: 100%;
-    background: #3C3C8C;
+    background: #474794;
     transition: .3s;
     z-index: 1;
 }
 .btnText {
     color : white;
     font-weight: bold;
-    font-family: 'BMJUA';
+    font-family: 'gmarket';
     font-size: 23px;
     transition : .3s;
     position : absolute;
-    transform: translateX(40%);
-  
+    transform: translateX(20%);
 }
-
 .btnText2 {
     margin-top : 12px;
     font-family: 'gmarket';
@@ -223,17 +227,12 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
     text-align: center;
     color : #FFF;
 }
-
 .level-btn:hover .btnTwo{ /*When hovering over .button change .btnTwo*/
     left: 0px;
 }
-
-  
 .level-btn:hover .btnText{ /*When hovering over .button change .btnText*/
-    margin-left : 100px;
-  
+    margin-left : 50px;
 }
-  
 .level-btn:active { /*Clicked and held*/
     box-shadow: 0px 5px 6px rgba(0,0,0,0.3);
 }
@@ -243,7 +242,6 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 .random-question-btn {
     display: none; /* 추가 */
     font-family: 'gmarket';
-    margin-left: 20px;
     width: 200px;
     height: 50px;
     background-color: #8878CD ; /* 배경색 설정 */
@@ -265,7 +263,8 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 
 /* 난이도 선택 후 질문 생성 컨테이너 */
 .questions-container {
-    font-family: 'gmarket';
+    font-family: "Malgun Gothic"; 
+    font-weight: bold; 
     display: none;
     /* width: 400px; 가로 길이 */
     max-height: 400px; /* 최대 높이 설정 */
@@ -273,11 +272,15 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
     /* border: 3px solid black; 컨테이너 테두리 */
     transition: background-color 1s ease; /* 부드러운 색상 변화 */
     background-color: #D2D2FF; /* 마우스를 올렸을 때의 배경색 */
-    margin: 20px 20px; /* 상하 마진, 좌우 마진은 자동으로 중앙 정렬 */
+    margin-top: 20px; 
+    margin-bottom: 20px;
+    margin-right: 20px;
+
 }
 
 .question-text-container {
-    font-family: 'gmarket';
+    font-family: "Malgun Gothic"; 
+    font-weight: bold; 
     /* font-size: 19px; */
     padding: 10px; /* 내용과의 간격 */
     margin: 5px 0; /* 질문들 사이의 간격 */
@@ -288,12 +291,17 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
     align-items: center; /* 세로 중앙 정렬 */
 }
 
+.question-text-container.selected {
+    /* 활성화 상태의 스타일 */
+    background-color: #b8b8de;  /* 배경색 변경 */
+    border: 1px solid #ddd;  /* 테두리 추가 */
+}
 
 /* 주제를 왼쪽에 고정시키는 스타일 */
 .topic-container {
     position: sticky; /* 스크롤 시 고정되도록 설정 */
     top: 50px; /* .top-bar의 높이만큼 여백 설정 */
-    width: 200px; /* 고정된 주제의 너비 설정 */
+    width: 160px; /* 고정된 주제의 너비 설정 */
     padding: 10px; /* 고정된 주제의 패딩 설정 */
     background-color: #D2D2FF; /* 고정된 주제의 배경색 설정 */
     z-index: 1; /* 다른 요소 위에 표시되도록 설정 */
@@ -302,7 +310,7 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 
 /* 문제 목록 스타일 */
 .question-text-container {
-    margin-left: 220px; /* 주제와의 간격을 주기 위해 왼쪽 마진 설정 */
+    margin-left: 170px; /* 주제와의 간격을 주기 위해 왼쪽 마진 설정 */
 }
 
 
@@ -313,7 +321,7 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 
 .topic-text {
     font-family: 'gmarket';
-    width: 150px; /* 고정 폭 설정 */
+    width: 160px; /* 고정 폭 설정 */
     display: inline-block; /* 인라인 블록 요소로 설정 */
     margin-right: 10px; /* 오른쪽 여백 추가 */
     background-color: #D2D2FF; /* 고정된 주제의 배경색 설정 */
@@ -328,30 +336,67 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 
 
 
-/* 잔디 기능 */
-.plotly-graph-container {
+.box-container {
+    padding-right: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    /* padding: 20px; */
+    position: absolute; /* sidebar 내에서 위치 고정 */
+    bottom: 0px; /*하단에 고정 바닥으로부터 20px 위로*/
+}
+
+.box-text{
     font-family: 'gmarket';
     font-size: 25px;
     display: flex;
     color: 	#646496;
-    flex-direction: column;
-    height: 200px !important;
     align-items: center;
-    position: absolute; /* sidebar 내에서 위치 고정 */
-    bottom: 10px; /*하단에 고정 바닥으로부터 20px 위로*/
-    width: 100%; /* sidebar 너비에 맞춤 */
 }
 
-.plotly-graph {
-    width: 80%; /*그래프의 폭을 부모 요소 대비 80%로 설정*/
-    margin: 0 auto; /* 상하 마진, 좌우 마진은 자동으로 중앙 정렬 */
+
+#triggerButton {
+    background-color: transparent;
+    border: none; /* 테두리 없음 */
+    border-radius: 100%; /* 둥근 테두리 */
+    cursor: pointer; /* 포인터 커서 표시 */
+    transition: background-color 0.3s, color 0.3s; /* 배경색 및 텍스트 색상 변화에 대한 전환 효과 */
+    width: 40px;
+    height: 40px;
+    margin-left: 10px; 
+}
+
+
+/* 행별로 박스를 정렬할 때 사용 */
+.level {
+    display: flex;
+    gap: 5px; /* 박스 사이 간격 */
+    margin-bottom: 5px; /* 레벨 사이 간격 */
+}
+
+/* 기본 박스 스타일 */
+.box {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: rgb(242, 241, 243); /* 기본 배경색 */
+    border: 2px solid rgb(235, 235, 235); /* 기본 테두리 */
+    transition: all 0.3s ease; /* 애니메이션 */
+}
+
+/* 활성화된 박스 스타일 */
+.active {
+    background-color: #9968b8; /* 강조 배경색 */
+    border: 2px solid rgb(164, 108, 200); /* 강조 테두리 */
 }
 
 .sidebar * {
     max-width: 100%; /* 최대 너비를 사이드바의 100%로 설정 */
     word-break: break-word; /* 긴 단어가 있을 경우 줄바꿈 */
 }
-
  
 
 
@@ -432,54 +477,45 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 
 .message.user {
     background-color: hsl(240, 79%, 93%);
-    font-family: 'gmarket';
+    font-family: "Malgun Gothic"; 
+    font-weight: bold; 
     font-size: 20px;
+    color: #3b3a3c;
     display: inline-block; /* 인라인 블록으로 설정 */
     max-width: 80%; /* 최대 너비 지정 */
 
 }
 .message.bot {
     background-color: #e1e1e1;
-    font-family: 'gmarket';
+    font-family: "Malgun Gothic"; 
+    font-weight: bold; 
     font-size: 20px;
-    color: #1d1b1b;
+    color: #3b3a3c;
     display: inline-block; /* 인라인 블록으로 설정 */
     max-width: 80%; /* 최대 너비 지정 */
 
 }
 
-
+.likebutton, .dislikebutton {
+    cursor: pointer; /* 커서 모양을 손가락 모양으로 변경 */
+    border: none; /* 테두리 제거 */
+    background-color: transparent; /* 배경 색상 투명 */
+    width: 24px; /* 너비 설정 */
+    height: 24px; /* 높이 설정 */
+    background-size: cover; /* 배경 이미지를 버튼 크기에 맞게 조절 */
+    margin-right: 5px; /* 우측 마진 추가 */
+}
 .likebutton {
-    text-align: center;
-    background: none;   
-    width: 30px; 
-    height: 30px;     
-    font-size: 15px;          
-    border-radius: 10%;        
-    border: none;             
-    cursor: pointer;    
-    /* margin-left: 15px;       */
+    background-image: url('/static/images/like-remove.png'); /* 좋아요 버튼 이미지 */
 }
-.dislikebutton{
-    text-align: center;
-    background: none;     
-    width: 30px; 
-    height: 30px;          
-    font-size: 15px;          
-    border-radius: 10%;        
-    border: none;             
-    cursor: pointer; 
-    /* margin-left: 15px;     */
+.dislikebutton {
+    background-image: url('/static/images/dislike-remove.png'); /* 싫어요 버튼 이미지 */
 }
 
-.likebutton:hover{
-    background-color:  #808080cc; /* hover 시 배경색 변경 */
-    border-color: #757575; /* hover 시 테두리색 변경 */
-}
-
-.dislikebutton:hover{
-    background-color:  #808080cc; /* hover 시 배경색 변경 */
-    border-color: #757575; /* hover 시 테두리색 변경 */
+.likebutton:hover, .dislikebutton:hover {
+    background-color: rgba(128, 128, 128, 0.3); /* 투명도를 0.5로 조정 */
+    border-color: #757575;
+    border-radius: 5px;
 }
 
 
@@ -508,6 +544,7 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 
 
 .image-button {
+    margin-top:30px;
     background-color: #ffffff;
     border: 1px solid #b4a5a5;
     border-radius: 10px;
@@ -517,7 +554,12 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
     width: 30px; /* 이미지의 가로 크기 */
     height: 40px; /* 이미지의 세로 크기 */
     object-fit: contain; /* 이미지를 컨테이너에 맞게 조정 */
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
+}
+
+.image-button:hover {
+    background-color: #f0eae3; /* 백그라운드 컬러를 연한 베이지 색으로 변경 */
+    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 }
 
 .text{
@@ -527,6 +569,7 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
     font-size: 20px;
     margin-top: -15px; 
 }
+
 
 .message-input {
     flex: 1;
@@ -540,6 +583,17 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
     background-color: rgba(236, 228, 252, 0.8);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, box-shadow 0.3s;
+    height: auto; /* 높이는 내용에 따라 자동으로 조정 */
+    overflow-y: auto; /* 세로 스크롤바가 생기는 것을 방지 */
+    resize: none; /* 사용자가 수동으로 크기를 조절하는 것을 방지 */
+    min-height: 40px; /* Sets the minimum height */
+    max-height: 100px; /* Sets the maximum height */
+}
+
+.meesage-input::placeholder {
+    /* line-height: 80px; */
+    text-align: center;
+    opacity: 0.5;
 }
 
 
@@ -567,7 +621,8 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
     transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
     box-shadow: 0 4px 10px #7878E1; /* 약간의 그림자 효과 */
     font-weight: bold; /* 텍스트를 굵게 표시 */
-    font-family: 'Arial', sans-serif; /* 원하는 글꼴로 변경 */
+    font-family: 'gmarket'; /* 원하는 글꼴로 변경 */
+    font-size: medium;
 }
 
 .send-button:hover {
@@ -597,50 +652,134 @@ left: 0; /* 컨테이너의 왼쪽 끝에 위치 */
 
 
 
-
+/* 대화창 코드부분 */
 pre {
-    background-color: #000000; /* 검은색 배경 */
-    color: #ffffff; /* 흰색 텍스트 */
+    background-color: #f5f5f5; 
+    color: black; 
     padding: 10px;
     border-radius: 5px;
     overflow-x: auto; /* 코드가 길 경우 가로 스크롤바 추가 */
     display: block; /* 완전한 블록 요소로 표시 */
-    font-weight: bold;
+    /* font-weight: bold; */
+    font-family: "Malgun Gothic";
 }
-
-/* 모달 창 */
 .modal {
-    display: none; /* 처음에는 숨겨짐 */
+    display: none; /* 모달 창 숨김 */
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* 다른 요소보다 위에 위치 */
+    background-color: rgba(0, 0, 0, 0.7); /* 반투명 검은 배경 */
+    z-index: 1000;
+    transition: opacity 0.5s;
 }
-
-/* 모달 창 내부 내용 */
+/* 모달 창 활성화 */
+.modal.show {
+    display: flex; /* 모달 창을 보이게 설정 */
+    opacity: 1;
+}
+/* 모달 콘텐츠 */
 .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    padding: 30px;
+    height: 700px;
+    width: 900px;
     text-align: center;
-    width: 300px; /* 원하는 크기 조정 */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
-
-/* 닫기 버튼 스타일 */
+/* 닫기 버튼 */
 .close-button {
-    float: right; /* 우측 정렬 */
+    position: relative;
+    float: right;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
     cursor: pointer;
 }
-
-/* 메인 콘텐츠 스타일 */
-.content {
-    padding: 20px; /* 콘텐츠에 여백을 줍니다. */
+/* 슬라이더 */
+.modal-slider {
+    text-align: center;
+    height: 700px;
+    width: 900px;
 }
+
+
+/* 각 슬라이드 */
+.slide {
+    padding: 20px;
+    text-align: center;
+    /* font-family: 'gmarket'; */
+    font-size: 25px;
+}
+
+.bold-text {
+    text-align: center;
+    font-weight: bolder;
+    font-size: 35px; /* 원하는 크기로 설정합니다. */
+    margin-bottom: 10px;
+    margin-left: 40px;
+    background-color: #dfd2ef;
+    padding: 10px;
+    width: 86%; /* 전체 너비 */
+}
+
+.slide img {
+    /* border-top: 1px solid #000000; */
+    margin-top : 20px;
+    text-align: center;
+    max-width:100%; /* 이미지의 최대 너비를 부모 요소에 맞게 조절 */
+    width: auto; /* 가로 세로 비율 유지 */
+    height: 280px; /* 가로 세로 비율 유지 */
+    margin-right: 40px;
+}
+.slide-text {
+    border-top: 1px solid #000000;
+    font-family: "Malgun Gothic";
+    color: black; /* 텍스트 색상 설정 */
+    font-size: 25px; /* 텍스트 크기 설정 */
+    font-weight:2px;
+    margin-top: 20px; /* 텍스트 위쪽 여백 설정 */
+    position: absolute; /* 절대 위치 지정 */
+    top:66%;
+    left: 50%; /* 가운데 정렬을 위한 왼쪽 위치 설정 */
+    transform: translateX(-50%); /* 가운데 정렬 */
+    width: 86%;
+}
+
+/* 이전 및 다음 버튼 */
+.slider-button {
+    /* position: absolute;
+    margin-right: 500px;
+    margin-left: 500px;
+    top: 50%;
+    transform: translateY(-50%); */
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #333;
+}
+/* 이전 버튼 위치 */
+.prev-button {
+    position: absolute; /* 추가 */
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+/* 다음 버튼 위치 */
+.next-button {
+    position: absolute; /* 추가 */
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
 
 
 .loading {
@@ -669,9 +808,9 @@ pre {
     position: relative;
 }
 
-.loading img {
+.loading video {
     margin-bottom: 10px;
-    width:50%;
+    width:80%;
     height: auto;
 }
 

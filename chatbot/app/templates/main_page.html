@@ -8,6 +8,10 @@
     <title>코딩을 풀어주는 챗봇 CoFullChat</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src='https://cdn.plot.ly/plotly-2.31.1.min.js'></script> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
 </head>
 <body>
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
@@ -22,6 +26,62 @@
         <a href="{% url 'user:logout' %}">로그아웃</a>
     </div>
 
+
+    <!-- 모달 창 -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span> <!-- 닫기 버튼 -->
+            <div class="modal-slider">
+                <div class="slide"> <!-- 슬라이드 1 -->
+                    <p class="bold-text"> 코풀챗과 대화하는 방법</p>
+                    <img src="{% static 'images/step1.png' %}" alt="첫 번째 이미지">
+                    <div class="slide-text">
+                        <p><strong>문제</strong>를 선택하고 <strong>코드</strong>가 아닌 </p>
+                        <p><strong>논리</strong> 과정을 차근차근 설명해 보세요.</p>
+                    </div>
+                </div>
+                <div class="slide"> <!-- 슬라이드 2 -->
+                    <p class="bold-text"> 코풀챗과 대화하는 방법</p>
+                    <img src="{% static 'images/codeblock.png' %}" alt="두 번째 이미지">
+                    <div class="slide-text">
+                        <p>논리 공부가 끝나면 코풀챗이 <strong>코드를</strong> </p>
+                        <p><strong>랜덤하게</strong> 섞어줘요.</p>
+                        <p><strong>순서대로 코드를 배열</strong>해 보세요.</p>
+                    </div>
+                </div>
+                <div class="slide"> <!-- 슬라이드 3 -->
+                    <p class="bold-text">코풀챗 부가 기능</p>
+                    <img src="{% static '/images/tabg_2.gif' %}" alt="세 번째 이미지">
+                    <div class="slide-text">
+                        <p>채팅화면만 보고 싶다면 <strong>좌측 버튼</strong>을 눌러보세요.</p>
+        
+                    </div>
+                </div>
+                <div class="slide"> <!-- 슬라이드 4 -->
+                    <p class="bold-text">코풀챗 부가 기능</p>
+                    <img src="{% static '/images/memo_chat.png' %}" alt="세 번째 이미지">
+                    <div class="slide-text">
+                        <p><strong>코드를 작성</strong>하고 싶을 때는 <strong>메모장</strong>을 이용해 보세요.</p>
+                    </div>
+                </div>
+                <div class="slide"> <!-- 슬라이드 5 -->
+                    <p class="bold-text">코풀챗 부가 기능</p>
+                    <img src="{% static '/images/blueb.png' %}" alt="세 번째 이미지">
+                    <div class="slide-text">
+                        <p><strong>논리 + 블록코딩</strong> 공부가 끝나면 <strong>블루베리</strong>가 심어져요.</p>
+                        <p><strong>새로고침 버튼</strong>을 누르면 <strong>적용</strong>됩니다🫐</p>
+                        <p>자 이제 준비 되셨나요? <strong>공부를 시작</strong> 해보세요!</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 이전 및 다음 버튼 -->
+            <button class="slider-button prev-button">&#x25C0;</button> <!-- 이전 버튼 -->
+            <button class="slider-button next-button">&#x25B6;</button> <!-- 다음 버튼 -->
+        </div>
+    </div>
+
+
+
     <div class="container">
         <!-- 왼쪽 패널 -->
         <div class="sidebar">
@@ -32,7 +92,7 @@
                         <button class="level-btn" data-level="{{ level }}">
                             <p class="btnText">LEVEL {{level}}</p>
                             <div class="btnTwo">
-                                <p class="btnText2">GO!</p>
+                                <p class="btnText2">START!</p>
                             </div>
                         </button>
                 {% endfor %}
@@ -45,22 +105,20 @@
             </div>
             <!-- 랜덤 문제 보기 버튼 -->
             <button class="random-question-btn">랜덤 문제 풀기</button>
-            <div id="modal" class="modal"> <!-- 모달 창 -->
-                <div class="modal-content">
-                    <span class="close-button">&times;</span> <!-- 닫기 버튼 -->
-                    <p>논리 학습 코딩 도우미 코풀챗입니다.</p>
-                    <p>먼저 논리를 학습하세요.</p>
-                    <p>코드블록 배열을 해보세요</p>
-                    <p>모두 하셨다면 당신은 고수!</p>
-                </div>
-            </div>
+
 
 
             <!-- 잔디 기능 -->
-            <div class="plotly-graph-container">
-                <p>🫐 {{user.username}} 님의 블루베리를 키워봐요! 🫐</p>
-                <!-- plotly 그래프를 출력할 영역 -->
-                <div id="plotly-graph" class="plotly-graph" style="height:100px"></div>
+            <div class="box-container">
+                <div class="box-text">
+                    <p>🫐 {{user.username}} 님의 블루베리를 키워봐요! 🫐</p>
+                    <button id="triggerButton">
+                        <img src="{% static 'images/reload.png' %}"/>
+                    </button>
+                </div>
+                <div id="con">
+                   <!-- 블루베리 -->
+                </div>
             </div>
 
         </div>
@@ -70,34 +128,40 @@
             <div class="chat-history">
                 <!-- 대화 히스토리가 여기에 표시 -->
             </div>
-            <!-- 추가 -->
 
+            <!-- 입력창 -->
             <div class="user-input">
+                <!-- 메모장 -->
                 <div class="text-book">
                     <button id="addMemoBtn" class="image-button">
-                        <img src="{% static 'images/memo.png' %}" alt="메모장" /> 
+                        <img src="{% static 'images/memo-removebg-preview.png' %}" alt="메모장" /> 
                     </button>
-                    <div class="text">
-                    </div>
                 </div>
-                <input type="text" class="message-input" placeholder="메시지를 입력하세요...">
+                <!-- <textarea class="message-input" placeholder="메시지를 입력하세요..."></textarea> -->
+                <textarea class="message-input" ></textarea>
                 <button class="send-button">전송</button>
             </div>
         </div>
 
+        <!-- 로딩 창 -->
         <div class="loading" id="loading">
             <div class="loading-box">
-                <img src="{% static 'images/01.gif' %}" alt="GIF">
+                <video autoplay loop muted>
+                    <source src="{% static 'images/dm.mp4' %}" type="video/mp4">
+                </video>
                 <!-- 로딩 중... -->
                 <span id="loading-text" style="font-size: 50px; font-weight: bold;">LOADING...</span>
             </div>
         </div>
 
-        <button class="arrow-button show-sidebar">←</button>
+        <!-- <button class="arrow-button show-sidebar"> &lt; </button> -->
+        <button class="arrow-button show-sidebar"> || </button>
     </div>
     <script>
         // Django 템플릿에서 JavaScript 변수로 변환
         const heatmapArray = JSON.parse('{{ heatmap_array|safe }}');
+
+
         fetch('/api/get_user_info/')
         .then(response => {
             if (!response.ok) {
