@@ -334,7 +334,7 @@ def save_reaction(request):
     if request.method == 'POST':
         content = request.POST.get('content')
         reaction = request.POST.get('reaction')  
-        existing_messages = Message.objects.filter(content=content).order_by('-created_at') # 같은 내용의 메세지들 중에서 최신순으로 정렬
+        existing_messages = Message.objects.filter(content=content).order_by('-timestamp') # 같은 내용의 메세지들 중에서 최신순으로 정렬
         
         if existing_messages.exists():
             existing_message = existing_messages.first()
