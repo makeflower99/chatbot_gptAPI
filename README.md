@@ -33,11 +33,15 @@
 
 
 
-## 📌 과정
+## 📌 프로젝트 과정
 
 ---
+**프로젝트 구조 및 워크 플로우**
 ![image](https://github.com/makeflower99/chatbot_gptAPI/assets/95970422/396944bd-7b47-4fe9-a6e0-8c0cfbf2aef9)
-
+**프로그램 기본 구조**
+![image](https://github.com/makeflower99/chatbot_gptAPI/assets/95970422/e39cb3e1-d1d5-415c-b8a5-a744b1badf13)
+**대화 프로세스**
+![image](https://github.com/makeflower99/chatbot_gptAPI/assets/95970422/738d630e-15d4-4aa7-9cad-97506641bfeb)
 
 > 내용 >
 
