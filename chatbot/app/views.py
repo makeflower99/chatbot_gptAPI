@@ -11,8 +11,10 @@ from langchain.schema.runnable import RunnablePassthrough
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 import os
 from django.utils import timezone
+from decouple import config
 
-os.environ["OPENAI_API_KEY"] = "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"
+OPENAI_API_KEY = config('OPENAI_API_KEY')
+os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 # Logger 객체 생성
 logger = logging.getLogger(__name__)
