@@ -1,8 +1,8 @@
+![image](https://github.com/makeflower99/chatbot_gptAPI/assets/155403618/1a91dbf0-4081-4a60-9abf-9e47b381c0a2)
+
 ## 📌 개요
 
 ---
-![image](https://github.com/makeflower99/chatbot_gptAPI/assets/155403618/1a91dbf0-4081-4a60-9abf-9e47b381c0a2)
-
 
 # 논리 기반 AI 코풀챗 
 >코풀챗은 ‘코드를 풀어주는 챗봇’, ‘코드의 풀이과정을 알려주는 챗봇’ 이라는 의미를 가진 서비스로, 중,고등학교 학생들에게 컴퓨팅 사고력과 문제해결 능력을 키워줄 수 있는 챗봇 서비스입니다.
