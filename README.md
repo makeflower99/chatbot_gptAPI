@@ -57,5 +57,13 @@ gpt api를 이용해서 중고등학생들의 논리력 증진을 키워 줄 수
 
 - VSCode
 - Python
+- HTML
+- CSS
+- Javascript
+- django 
+- Langchain
+- Openai
+
+
 
 
