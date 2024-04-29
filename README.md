@@ -36,6 +36,7 @@
 ## 📌 과정
 
 ---
+![image](https://github.com/makeflower99/chatbot_gptAPI/assets/95970422/396944bd-7b47-4fe9-a6e0-8c0cfbf2aef9)
 
 
 > 내용 >
