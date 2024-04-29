@@ -19,6 +19,7 @@
 ## 📌 개요
 
 ---
+![image](https://github.com/makeflower99/chatbot_gptAPI/assets/155403618/1a91dbf0-4081-4a60-9abf-9e47b381c0a2)
 
 > 내용> 
 
