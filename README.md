@@ -61,7 +61,7 @@
 - HTML
 - CSS
 - Javascript
-- django 
+- Django 
 - Langchain
 - Openai
 
