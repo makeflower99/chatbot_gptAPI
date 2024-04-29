@@ -36,6 +36,34 @@
 
 최종적으로 천재교육 빅데이터 챗봇2팀은 학습에 효율적인 기능으로 구성된 논리 기반 AI 코풀챗을 개발하여 사용자에게 알고리즘 학습과 문제 해결 능력 향상을 돕고자 합니다.
 
+## 📌 사용 가이드
+---
+
+1. 가상환경 구성
+   
+vscode 환경에서 수행해 주세요.
+
+```bash
+python -m venv 가상환경이름
+```
+
+```bash
+가상환경이름/Scripts/activate.bat
+```
+
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+python manage.py runserver
+```
+
+생성된 로컬주소로 이동해 주세요.
+
+2. AWS 웹서비스 배포
+
+저는 잘 몰라요... 추가요망
 
 ## 📌 프로젝트 과정
 
