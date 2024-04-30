@@ -52,25 +52,25 @@
 **vscode 환경에서 수행해 주세요.**
    
 
-//가상환경 생성
+>가상환경 생성
 
 ```bash
 python -m venv 가상환경이름
 ```
-//가상환경 실행
+>가상환경 실행
 ```bash
 가상환경이름/Scripts/activate.bat
 ```
-//패키지 설치
+>패키지 설치
 ```bash
 pip install -r requirements.txt
 ```
-//코풀챗 실행
+>코풀챗 실행
 ```bash
 python manage.py runserver
 ```
 
-생성된 로컬주소로 이동해 주세요.
+생성된 로컬주소로 이동해 주세요🚀
 
 **2. AWS 웹서비스 배포**
 
