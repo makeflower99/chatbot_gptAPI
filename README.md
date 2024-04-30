@@ -74,9 +74,7 @@ python manage.py runserver
 
 생성된 로컬주소로 이동해 주세요🚀
 
-**2. AWS 웹서비스 배포**
 
-[웹사이트 이동](http://ec2-13-209-12-198.ap-northeast-2.compute.amazonaws.com/)
 
 
 
