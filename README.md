@@ -94,7 +94,7 @@ python manage.py runserver
 >![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/ea427a4e-8f94-426e-926e-1748f002f7c7)
 
 > 코드 순서 조합(블록코딩)
->![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/70e02718-0a10-4377-be04-5f886c1d2050),(https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/19d03bef-5aad-497d-913e-8682b1d6c0f5)
+>![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/70e02718-0a10-4377-be04-5f886c1d2050,https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/19d03bef-5aad-497d-913e-8682b1d6c0f5)
 
 > 코드 메모장 기능
 >![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/1c5388e1-92ef-4afa-8a18-bcda4c3ba947)
