@@ -84,22 +84,23 @@ python manage.py runserver
 
 ---
 
-> 회원가입, 로그인
+회원가입, 로그인
 >![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/9cd4b1ce-df5b-4ccb-8552-b7296855db83)
 
-> 가이드라인
+가이드라인
 >![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/1c5d31e0-c302-4604-a4c7-1ab11128bfdc)
 
-> 대화 프로세스
+대화 프로세스
 >![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/ea427a4e-8f94-426e-926e-1748f002f7c7)
 
-> 코드 순서 조합(블록코딩)
->![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/70e02718-0a10-4377-be04-5f886c1d2050,https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/19d03bef-5aad-497d-913e-8682b1d6c0f5)
+코드 순서 조합(블록코딩)
+>![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/70e02718-0a10-4377-be04-5f886c1d2050)
+>![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/19d03bef-5aad-497d-913e-8682b1d6c0f5)
 
-> 코드 메모장 기능
+코드 메모장 기능
 >![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/1c5388e1-92ef-4afa-8a18-bcda4c3ba947)
 
-> 탭 기능
+탭 기능
 > ![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/6d591dfa-6df1-45a9-a001-164cf051eb01)
 
 
