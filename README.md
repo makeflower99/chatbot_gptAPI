@@ -67,6 +67,10 @@ python -m venv 가상환경이름
 ```bash
 pip install -r requirements.txt
 ```
+>.env 생성
+```bash
+OPENAI_API_KEY = "본인 openai api key"
+```
 >코풀챗 실행
 ```bash
 python manage.py runserver
@@ -94,6 +98,7 @@ python manage.py runserver
 코드 순서 조합(블록코딩)
 >![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/70e02718-0a10-4377-be04-5f886c1d2050)
 >![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/19d03bef-5aad-497d-913e-8682b1d6c0f5)
+
 
 코드 메모장 기능
 >![image](https://github.com/makeflower99/chatbot_gptAPI/assets/99801524/1c5388e1-92ef-4afa-8a18-bcda4c3ba947)
