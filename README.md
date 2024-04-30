@@ -76,7 +76,7 @@ python manage.py runserver
 
 **2. AWS 웹서비스 배포**
 
-저는 잘 몰라요... 추가요망
+[웹사이트 이동](http://ec2-13-209-12-198.ap-northeast-2.compute.amazonaws.com/)
 
 
 
