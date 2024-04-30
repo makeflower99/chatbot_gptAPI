@@ -115,7 +115,7 @@ python manage.py runserver
 - Langchain
 - Openai
 
-
-**프로젝트 구조 및 워크 플로우**
+---
+**프로젝트 구조**
 ![image](https://github.com/makeflower99/chatbot_gptAPI/assets/95970422/396944bd-7b47-4fe9-a6e0-8c0cfbf2aef9)
 
